@@ -9,28 +9,86 @@ class ShipAlreadyThere(Exception):
 class TooManyPlayers(Exception):
     pass
 
-class player(object):
+class Cell(object):
+    # states = set(['fog','empty', 'ship', 'miss', 'near', 'fate'])
+    
+    def __init__(self, x, y, state, ship)
+        self.x = x
+        self.y = y
+        self.state = None
+        if state:
+            self.state = state
+        self.ship = None
+        if ship:
+            self.ship = ship
+            
+class Ship(object):
+    def __init__(self, field, cells)
+        self.cells = cells
+        self.area = {}
+        for c in cells:
+            x = c[0]
+            y = c[1]
+            if x - 1 >= 0:
+                self.area.append((x-1, y))
+            if x + 1 <= self.field.size
+        self.length = len(cells)
+
+class Board(object):
+    def __init__(self, size)
+        """Init squared field"""
+        for i in range(size):
+            for j in range(size):
+                self.board[(i,j)] = Cell(i, j, 'empty')
+                
+    def check_collisions(self, ship)
+        for s in self.ships:
+            for
+
+class Battleship(object):
+    """The game board of battleShip"""
+
+    def __init__(self, size, players):
+        """Create two boards each with the size of size*size and number of human
+        players, player."""
+        
+        self.size = size
+        self.players = players
+        self.player1 = player(self.size)
+        self.player2 = player(self.size)
+        self.player1.opponent = self.player2
+        self.player2.opponent = self.player1
+        self.curr_opponent = self.player2
+        self.curr_player = self.player1
+        self.player1.name = 'Player One'
+        self.player2.name = 'Player Two'
+        self.select_ships()
+        self.startup()
+        self.game_over = False
+        self.play()
+
+    
+
+        
+class Player(object):
     """The map, ship and firing mechanism for a player of the game battleship.
     """
 
-    def __init__(self, size):
+    def __init__(self):
         '''Initializes a player's basic requirements'''
-        self.human = 0
-        self.select_ships = []
-        self.name =''
+        self.human = False
+        self.name ='Bot'
         self.score = 0
-        self.size = size
-        self.board = {}
-        self.opponents_board = {}
-        self.opponent = ''
-        # The player's opponents board keeps track of where they've hit an
-        # opponent
-        for i in range(self.size):
-            for j in range(self.size):
-                self.board[(i,j)] = '.'
-                self.opponents_board[(i,j)] = '?'
-        # The default s is places on the all the spots to indicate empty sea
-        # and ? are places on your view of the opponents board.
+        
+    def init_board(self, size)
+        self.board = Board(size)
+
+    def set_human()
+        self.human = True
+        
+    def get_reserved_cells(self, ship)
+        '''Description'''
+        pass
 
     def place_ships(self, size, x, y, orientation):
         '''Place ship of size, size, starting at position (x,y) and oriented
@@ -39,25 +97,40 @@ class player(object):
         # Checks to make sure the ship doesn't lie outside the board and that
         # no ships have been placed on those spots.
         if not orientation:
-            for x in range(x, x + size):
+            min_x = max(x - 1, 0)
+            max_x = min(x + size + 1, self.size - 1)
+            min_y = max(y - 1, 0)
+            max_y = min(y + size + 1, self.size - 1)
+            for x_ in range(min_x, max_x):
+            if x <= x_ and x_ <= x + size):
                 self.board[(x,y)] = size
+            else:
+                self.board[(x,y)] = '_'
         elif orientation:
             for y in range(y, y + size):
                 self.board[(x,y)] = size
+        for c in get_reserved_cells(ship):
+            self.board[c] = '_'
 
     def check_collisions(self, size, x, y, orientation):
         '''Checks to make sure the ship doesn't lie outside the board and that
         no ships have been placed on those spots.'''
         if not orientation:
+            # orientation == 1; ship will be oriented horizontally
             if self.size < (x + size) or self.size < y:
                 raise OutofboardError()
-            for x in range(x, x + size):
+            min_x = max(x - 1, 0)
+            max_x = min(x + size + 1, self.size - 1)
+            for x in range(min_x, max_x):
                 if self.board.get((x,y)) != '.':
                     raise ShipAlreadyThere()
         elif orientation:
+            # orientation == 0; ship will be oriented vertically
             if self.size < (y + size) or self.size < x:
                 raise OutofboardError()
-            for y in range(y, y + size):
+            min_y = max(y - 1, 0)
+            max_y = min(y + size + 1, self.size - 1)
+            for y in range(min_y, max_y):
                 if self.board.get((x,y)) != '.':
                     raise ShipAlreadyThere()
 
@@ -107,8 +180,8 @@ class player(object):
             y = raw_input('What is the y co-ordinate for your ' + 
                           ships[ship_size -2] + ' of size ' + str(ship_size) + 
                           '? ')
-            orientation = int(raw_input('''If you wish to place the ship 
-            vertically, enter 1. For a horizontl ship, enter 0. '''))
+            orientation = raw_input('''If you wish to place the ship 
+            vertically, enter 1. For a horizontl ship, enter 0. ''')
             try:
                 x,y,orientation = int(x), int(y),int(orientation)
                 # Verifies the input values are integers
@@ -185,26 +258,31 @@ class player(object):
         for n in range(20):
             print ''
 
-class Battleship(object):
-    """The game board of battleShip"""
+    
+    
+class Game(object):
+    def __init__(self)
+        print "Welcome on board"
 
-    def __init__(self, size, players):
-        """Create two boards each with the size of size*size and number of human
-        players, player."""
-        self.size = size
-        self.players = players
-        self.player1 = player(self.size)
-        self.player2 = player(self.size)
-        self.player1.opponent = self.player2
-        self.player2.opponent = self.player1
-        self.curr_opponent = self.player2
-        self.curr_player = self.player1
-        self.player1.name = 'Player One'
-        self.player2.name = 'Player Two'
-        self.select_ships()
-        self.startup()
+        size = 0
+        while size < 1:
+            size = int(input("What size board would you like? "))
+            
+        n_players = -1
+        while n_players > 2 or n_players < 0:
+            n_players = int(input("State the number of human players(0,1 or 2): "))
+
+        self.players = {}
+        for i in range(0, 2):
+            self.players[i] = Player()
+            self.players[i].init_board(size)
+            if n_players > i:
+                self.players[i].set_human()
+
         self.game_over = False
-        self.play()
+        self.curr_player = self.players[0]
+        self.curr_opponent = self.players[1]
+        self.select_ships()
 
     def select_ships(self):
         two = raw_input('Captain please state the number of destroyers(length 2): ')
@@ -221,22 +299,7 @@ class Battleship(object):
         self.player1.select_ships = two*[2] + three*[3] + four*[4] + five*[5]
         self.player2.select_ships = two*[2] + three*[3] + four*[4] + five*[5]
 
-    def startup(self):
-        '''Initializes the player's as either two humans, a human and a computer
-        or two computers. Enter too many characters and an error will be raised.
-        '''
-        if self.players < 0 and self.players > 3:
-            raise TooManyPlayers
-        elif self.players:
-            self.player1.player_setup(1)
-            if self.players == 2:
-                self.player2.player_setup(1)
-            else:
-                self.player2.player_setup(0)
-        elif not self.players:
-            self.player1.player_setup(0)
-            self.player2.player_setup(0)
-
+                   
     def play(self):
         for n in range(40):
             print ''
@@ -249,12 +312,9 @@ class Battleship(object):
         self.curr_opponent.print_map(False)
         print self.curr_opponent.name + ''' wins!'''
 
-if __name__ == '__main__':
-    print "Welcome on board, Captain."
-    size = int(input("What board size would you like? "))
-    while size < 1:
-        size = int(input("What size board would you like? "))
-    players = int(input("State the number of human players(0,1 or 2): "))
-    while players > 2 or players < 0:
-        players = int(input("State the number of human players(0,1 or 2): "))
-    game = Battleship(size, players)
+     
+game = Game()
+game.play()
+
+
+
