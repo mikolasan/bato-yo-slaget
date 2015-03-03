@@ -9,7 +9,10 @@ class ShipAlreadyThere(Exception):
 class TooManyPlayers(Exception):
     pass
 
+
+
 class Cell(object):
+
     # states = set(['fog','empty', 'ship', 'miss', 'near', 'fate'])
     
     def __init__(self, x, y, state, ship)
@@ -21,9 +24,12 @@ class Cell(object):
         self.ship = None
         if ship:
             self.ship = ship
+
+
             
 class Ship(object):
-    def __init__(self, field, cells)
+
+    def __init__(self, cells)
         self.cells = cells
         self.area = {}
         for c in cells:
@@ -34,42 +40,30 @@ class Ship(object):
             if x + 1 <= self.field.size
         self.length = len(cells)
 
+
+
 class Board(object):
+
     def __init__(self, size)
         """Init squared field"""
         for i in range(size):
             for j in range(size):
                 self.board[(i,j)] = Cell(i, j, 'empty')
-                
+
+    def setup_ships(self)
+        
+
+    def add_ship(self, cells):
+        for c in cells:
+            self.board[(c[0], c[1])].set_state('ship')
+        self.ships.append(Ship(cells))
+    
     def check_collisions(self, ship)
         for s in self.ships:
             for
 
-class Battleship(object):
-    """The game board of battleShip"""
 
-    def __init__(self, size, players):
-        """Create two boards each with the size of size*size and number of human
-        players, player."""
-        
-        self.size = size
-        self.players = players
-        self.player1 = player(self.size)
-        self.player2 = player(self.size)
-        self.player1.opponent = self.player2
-        self.player2.opponent = self.player1
-        self.curr_opponent = self.player2
-        self.curr_player = self.player1
-        self.player1.name = 'Player One'
-        self.player2.name = 'Player Two'
-        self.select_ships()
-        self.startup()
-        self.game_over = False
-        self.play()
 
-    
-
-        
 class Player(object):
     """The map, ship and firing mechanism for a player of the game battleship.
     """
@@ -152,26 +146,19 @@ class Player(object):
             print row
             row = ''
 
-    def player_setup(self, human):
-        '''Sets up the player's ships for either a human if human is true, else
-        sets up the computer player's ships.'''
-        self.human = human
-        if human:
-            self.name = raw_input('What is your name ' + self.name + '? ')
-            random = input("Do you want to place your own ship?(1-Yes, 0-Random):")
-            while random != 1 and random != 0:
-                random = input("Do you want to place your own ship?(1-Yes, 0-Random):")
-            if random == 0:
-                human = False
-        for ship_size in self.select_ships:
-            #changing the number in the above bracket changes the number of
-            #ships used in the game.
-            self.ship_setup(ship_size, human)
-
     def ship_setup(self, ship_size, human):
         '''Places a ship of ship_size on the board for either a human, if human
         is true, or a computer player.'''
         ships = ['Destroyer', 'Submarine', 'Battleship', 'Carrier']
+        
+        if human == None:
+            human = self.human
+            random = -1
+            while random != 1 and random != 0:
+                random = input("Do you want to place your own ship?(1-Yes, 0-Random):")
+            if random == 0:
+                human = False
+                
         if human:
             self.print_map(True)
             x = raw_input('What is the x co-ordinate for your ' + 
@@ -204,16 +191,17 @@ class Player(object):
     def fire(self):
         if not self.human:
             #checks to see if the current player should be a computer.
-                x = random.randint(0,self.size)
-                y = random.randint(0,self.size)
+            x = random.randint(0,self.size)
+            y = random.randint(0,self.size)
         else:
             x = raw_input('What is the x-coordinate you wish to fire on? ')
             y = raw_input('What is the y-coordinate you wish to fire on? ')
         try:
-            x,y = int(x), int(y)
+            x, y = int(x), int(y)
             # verifies that x and y are valid integers.
         except Exception:
             self.fire()
+            
         self.fire_helper(x,y)
 
     def fire_helper(self,x,y):
@@ -261,6 +249,7 @@ class Player(object):
     
     
 class Game(object):
+
     def __init__(self)
         print "Welcome on board"
 
@@ -275,9 +264,10 @@ class Game(object):
         self.players = {}
         for i in range(0, 2):
             self.players[i] = Player()
-            self.players[i].init_board(size)
             if n_players > i:
                 self.players[i].set_human()
+                self.players[i].name = raw_input('What is your name player ' + (i+1) + '? ')
+            self.players[i].init_board(size)
 
         self.game_over = False
         self.curr_player = self.players[0]
@@ -312,7 +302,8 @@ class Game(object):
         self.curr_opponent.print_map(False)
         print self.curr_opponent.name + ''' wins!'''
 
-     
+
+
 game = Game()
 game.play()
 
