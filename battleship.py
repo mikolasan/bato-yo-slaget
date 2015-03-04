@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# vim: set fileencoding=utf-8
+
 import random
 
 class OutofboardError(Exception):
@@ -15,7 +18,7 @@ class Cell(object):
 
     # states = set(['fog','empty', 'ship', 'miss', 'near', 'fate'])
     
-    def __init__(self, x, y, state, ship)
+    def __init__(self, x, y, state = None, ship = None):
         self.x = x
         self.y = y
         self.state = None
@@ -29,10 +32,11 @@ class Cell(object):
             
 class Ship(object):
 
-    def __init__(self, cells)
+    def __init__(self, cells):
         self.cells = cells
-        self.area = {}
+        self.area = []
         for c in cells:
+            
             x = c[0]
             y = c[1]
             if x - 1 >= 0:
@@ -44,13 +48,14 @@ class Ship(object):
 
 class Board(object):
 
-    def __init__(self, size)
+    def __init__(self, size):
         """Init squared field"""
         for i in range(size):
             for j in range(size):
                 self.board[(i,j)] = Cell(i, j, 'empty')
 
-    def setup_ships(self)
+    def setup_ships(self):
+        pass
         
 
     def add_ship(self, cells):
@@ -58,9 +63,10 @@ class Board(object):
             self.board[(c[0], c[1])].set_state('ship')
         self.ships.append(Ship(cells))
     
-    def check_collisions(self, ship)
-        for s in self.ships:
-            for
+    def check_collisions(self, ship):
+        pass
+        #for s in self.ships:
+        #    for
 
 
 
@@ -74,13 +80,13 @@ class Player(object):
         self.name ='Bot'
         self.score = 0
         
-    def init_board(self, size)
+    def init_board(self, size):
         self.board = Board(size)
 
-    def set_human()
+    def set_human():
         self.human = True
         
-    def get_reserved_cells(self, ship)
+    def get_reserved_cells(self, ship):
         '''Description'''
         pass
 
@@ -96,10 +102,10 @@ class Player(object):
             min_y = max(y - 1, 0)
             max_y = min(y + size + 1, self.size - 1)
             for x_ in range(min_x, max_x):
-            if x <= x_ and x_ <= x + size):
-                self.board[(x,y)] = size
-            else:
-                self.board[(x,y)] = '_'
+                if x <= x_ and x_ <= x + size:
+                    self.board[(x,y)] = size
+                else:
+                    self.board[(x,y)] = '_'
         elif orientation:
             for y in range(y, y + size):
                 self.board[(x,y)] = size
@@ -250,7 +256,7 @@ class Player(object):
     
 class Game(object):
 
-    def __init__(self)
+    def __init__(self):
         print "Welcome on board"
 
         size = 0
@@ -304,8 +310,8 @@ class Game(object):
 
 
 
-game = Game()
-game.play()
+#game = Game()
+#game.play()
 
 
 
