@@ -16,14 +16,21 @@ def test_cells():
 from battleship import Ship
 
 def test_ship():
-    cells = [None] * 3
-    for i in range(0, 3):
-        cells[i] = Cell(0, i)
-
-    ship = Ship(cells)
-    print "area: ", len(ship.area)
+    ship = Ship()
+    ship.create(0, 0, 3, "V")
+    print ship.name, " area: ", len(ship.area)
     for c in ship.area:
         print c.x, c.y
     
         
-test_ship()
+#test_ship()
+
+
+from battleship import Board
+
+def test_board():
+    board = Board()
+    
+    
+        
+test_board()
