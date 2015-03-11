@@ -104,44 +104,40 @@ class Board(object):
             for j in range(size):
                 self.board[(i,j)] = Cell(i, j, 'empty')
 
-    def setup_ships(self, random = True):
+    def setup_ship(self, size, rand = True):
         '''Places a ship of ship_size on the board for either a human, if human
         is true, or a computer player.'''
         
-        random = -1
-        if self.human:
-            while random != 1 and random != 0:
-                random = input("Do you want to place your own ship?(1-Yes, 0-Random):")
-
-        if human:
-            self.pretty_print()
-            x = raw_input('What is the x co-ordinate for your ' + 
-                          ships[ship_size -2] + ' of size ' + str(ship_size) + 
-                          '? ')
-            y = raw_input('What is the y co-ordinate for your ' + 
-                          ships[ship_size -2] + ' of size ' + str(ship_size) + 
-                          '? ')
-            orientation = raw_input('''If you wish to place the ship 
-            vertically, enter V. For a horizontl ship, enter H. ''')
-            try:
-                x,y,orientation = int(x), int(y),str(orientation)
-                # Verifies the input values are integers
-            except Exception:
-                self.ship_setup(ship_size, human)
-        else:
+        if rand:
             #randomize computer player's ships
             x = random.randint(0, self.size)
             y = random.randint(0, self.size)
             orientation = random.randint(0, 1) == 0 and "V" or "H"
-
-        try: 
-            self.place_ships(ship_size, x, y, orientation)
-        except OutofboardError:
-            # The player tried to place the ship out of bounds.
-            self.ship_setup(ship_size, human)
-        except ShipAlreadyThere:
-            #A ship occupies the current spot.
-            self.ship_setup(ship_size, human)
+        else:
+            self.pretty_print()
+            x = raw_input('What is the x co-ordinate for your ' + str(size) + 
+                          '? ')
+            y = raw_input('What is the y co-ordinate for your ' + str(size) + 
+                          '? ')
+            orientation = raw_input('''If you wish to place the ship 
+            vertically, enter V. For a horizontl ship, enter H. ''')
+            try:
+                x, y, orientation = int(x), int(y), str(orientation)
+                # Verifies the input values are integers
+            except Exception:
+                self.setup_ship(size, random)
+                
+        cells = [None] * size
+        for i in range(0, size):
+            if orientation == "V":
+                x_ = x
+                y_ = y + i
+            elif orientation == "H":
+                x_ = x + i
+                y_ = y
+            cells[i] = Cell(x_, y_, 'ship')
+        if not self.add_ship(cells):
+            self.setup_ship(size, random)
         
 
     def add_ship(self, cells):
@@ -187,61 +183,29 @@ class Player(object):
         self.name ='Bot'
         self.score = 0
         
-    def init_board(self, size):
+    def init_board(self, size, fleet):
         self.board = Board(size)
-        return self.board
-
-
-    def set_human():
-        self.human = True
-
-
-    def check_collisions(self, size, x, y, orientation):
-        '''Checks to make sure the ship doesn't lie outside the board and that
-        no ships have been placed on those spots.'''
-        pass
-
-    def ship_setup(self, ship_size, human):
-        '''Places a ship of ship_size on the board for either a human, if human
-        is true, or a computer player.'''
-        ships = ['Destroyer', 'Submarine', 'Battleship', 'Carrier']
         
-        if human == None:
-            human = self.human
+        human = self.human
+        if human:
             random = -1
             while random != 1 and random != 0:
                 random = input("Do you want to place your own ship?(1-Yes, 0-Random):")
             if random == 0:
                 human = False
-                
-        if human:
-            self.print_map(True)
-            x = raw_input('What is the x co-ordinate for your ' + 
-                          ships[ship_size -2] + ' of size ' + str(ship_size) + 
-                          '? ')
-            y = raw_input('What is the y co-ordinate for your ' + 
-                          ships[ship_size -2] + ' of size ' + str(ship_size) + 
-                          '? ')
-            orientation = raw_input('''If you wish to place the ship 
-            vertically, enter 1. For a horizontl ship, enter 0. ''')
-            try:
-                x,y,orientation = int(x), int(y),int(orientation)
-                # Verifies the input values are integers
-            except Exception:
-                self.ship_setup(ship_size, human)
-        else:
-            #randomize computer player's ships
-            x = random.randint(0, self.size)
-            y = random.randint(0, self.size)
-            orientation = random.randint(0, 1)
-        try: 
-            self.place_ships(ship_size, x, y, orientation)
-        except OutofboardError:
-            # The player tried to place the ship out of bounds.
-            self.ship_setup(ship_size, human)
-        except ShipAlreadyThere:
-            #A ship occupies the current spot.
-            self.ship_setup(ship_size, human)
+
+        for s in range(0, len(fleet)):
+            ship_size = s + 1
+            count = fleet[s]
+        
+            while count > 0:
+                if self.board.setup_ship(ship_size, not human):
+                    count -= 1
+
+
+    def set_human():
+        self.human = True
+
 
     def fire(self):
         if not self.human:

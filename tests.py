@@ -39,4 +39,16 @@ def test_board():
     board.pretty_print()
     
         
-test_board()
+#test_board()
+
+from battleship import Player
+
+def test_player():
+    player = Player()
+    settings = [4, 3, 2, 1, 0]
+    player.init_board(10, settings)
+    
+    #player.turn()
+    
+test_player()
+    
