@@ -29,8 +29,14 @@ def test_ship():
 from battleship import Board
 
 def test_board():
-    board = Board()
-    
+    board = Board(10)
+    ship1 = Ship()
+    ship1.create(0, 0, 3, "V")
+    ship2 = Ship()
+    ship2.create(0, 0, 3, "H")
+    board.add_ship(ship1.cells)
+    board.add_ship(ship2.cells)
+    board.pretty_print()
     
         
 test_board()
