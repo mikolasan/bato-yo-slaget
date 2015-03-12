@@ -48,7 +48,10 @@ def test_player():
     settings = [4, 3, 2, 1, 0]
     player.init_board(10, settings)
     player.board.pretty_print()
-    #player.turn()
+    x, y = player.fire(player.board)
+    print x, y
+    player.on_fire(x, y)
+    player.board.pretty_print()
     
 test_player()
     

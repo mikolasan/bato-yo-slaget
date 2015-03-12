@@ -16,7 +16,7 @@ class TooManyPlayers(Exception):
 
 class Cell(object):
 
-    # states = set(['fog','empty', 'ship', 'miss', 'near', 'fate'])
+    # states = {'fog','empty', 'ship', 'miss', 'near', 'fate'}
     
     def __init__(self, x, y, state = None, ship = None):
         self.x = x
@@ -104,6 +104,9 @@ class Board(object):
             for j in range(size):
                 self.board[(i,j)] = Cell(i, j, 'empty')
 
+    def get(self, x, y):
+        return self.board[(x, y)]
+    
     def setup_ship(self, size, rand = True):
         '''Places a ship of ship_size on the board for either a human, if human
         is true, or a computer player.'''
@@ -170,12 +173,19 @@ class Board(object):
         s = ""
         for y in range(self.size):
             for x in range(self.size):
-                if self.board[(x,y)].state == 'empty':
+                state = self.board[(x,y)].state
+                if state == 'empty':
                     s += "."
-                elif self.board[(x,y)].state == 'ship':
+                elif state == 'ship':
                     s += "x"
-                elif self.board[(x,y)].state == 'near':
-                    s += "_"
+                elif state == 'near':
+                    s += "*"
+                elif state == 'fate':
+                    s += "%"
+                elif state == 'miss':
+                    s += "o"
+                elif state == 'fog':
+                    s += "~"
             s += "\n"
         print s
 
@@ -214,11 +224,11 @@ class Player(object):
         self.human = True
 
 
-    def fire(self):
+    def fire(self, board):
         if not self.human:
             #checks to see if the current player should be a computer.
-            x = random.randint(0,self.size)
-            y = random.randint(0,self.size)
+            x = random.randint(0, board.size - 1)
+            y = random.randint(0, board.size - 1)
         else:
             x = raw_input('What is the x-coordinate you wish to fire on? ')
             y = raw_input('What is the y-coordinate you wish to fire on? ')
@@ -228,35 +238,42 @@ class Player(object):
         except Exception:
             self.fire()
             
-        self.fire_helper(x,y)
-
-    def fire_helper(self,x,y):
-        '''Fires at coordinates (x,y) on opponent'''
-
-        if x > self.size or y > self.size:
+        if x >= board.size or y >= board.size:
             #Checks to make sure that x and y and in the scope of the board.
             print 'Out of bounds'
             self.fire()
-        elif self.opponents_board.get((x,y)) != '?':
+        elif (board.get(x,y).state == 'miss' or
+                board.get(x,y).state == 'fate'):
             #Checks if the current spot has been chosen.
             print 'That coordinate has been fired already'
             self.fire()
-        elif (self.opponent.board.get((x,y)) == '.' or 
-              self.opponent.board.get((x,y)) == 'x'):
+            
+        return x, y
+
+    def on_fire(self, x, y):
+        '''Fired at coordinates (x,y)'''
+
+        state = self.board.get(x,y).state
+        if (state == 'near' or 
+              state == 'empty' or
+              state == 'fog'):
             #The player has hit an s and missed.
             print 'Target missed'
-            self.opponents_board[(x,y)] = 'x'
-            self.opponent.board[(x,y)] = 'x'
+            self.board.get(x,y).state = 'miss'
         else:
             #A player's ship has been hit! Mark it on the board.
-            ship_name_list = ['Destroyer','Frigate','Battleship','Carrier']
-            
-            print ("Hit enemy's " + \
-                   ship_name_list[self.opponent.board.get((x,y)) - 2])
-            self.score -= 1
-            self.opponents_board[(x,y)] = \
-                self.opponent.board.get((x,y))
-            self.opponent.board[(x,y)] = 'x'
+            ship = self.board.get(x,y).ship
+            print ("Hit enemy's " + ship.name)
+            self.board.get(x,y).state = 'fate'
+            ship.length -= 1
+            if ship.length == 0:
+                for c in ship.cells:
+                    c.ship = None
+                for a in ship.area:
+                    cell = self.board.get(a.x, a.y)
+                    if cell.state == 'empty' or cell.state == 'fog':
+                        cell.state = 'near'
+                self.board.ships.remove(ship)
 
     def turn(self):
         raw_input(self.name + ''''s turn''' + ' push enter to continue')
