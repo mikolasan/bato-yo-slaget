@@ -47,7 +47,7 @@ def test_player():
     player = Player()
     settings = [4, 3, 2, 1, 0]
     player.init_board(10, settings)
-    
+    player.board.pretty_print()
     #player.turn()
     
 test_player()

@@ -138,6 +138,7 @@ class Board(object):
             cells[i] = Cell(x_, y_, 'ship')
         if not self.add_ship(cells):
             self.setup_ship(size, random)
+        return True
         
 
     def add_ship(self, cells):
@@ -145,11 +146,17 @@ class Board(object):
         
         # check collisions
         collision = []
-        for s in self.ships:
-            for full in (s.cells + s.area):
-                for new in (ship.cells + ship.area):
+        for new in cells:
+            if (new.x < 0 or new.x >= self.size or
+                    new.y < 0 or new.y >= self.size):
+                #raise OutofboardError()
+                return False
+            for s in self.ships:
+                for full in (s.cells + s.area):
                     if full.x == new.x and full.y == new.y:
-                        collision.append(new)
+                        #collision.append(new)
+                        #raise ShipAlreadyThere()
+                        return False
         
         if len(collision) == 0:
             self.ships.append(ship)
@@ -181,7 +188,6 @@ class Player(object):
         '''Initializes a player's basic requirements'''
         self.human = human
         self.name ='Bot'
-        self.score = 0
         
     def init_board(self, size, fleet):
         self.board = Board(size)
@@ -197,8 +203,9 @@ class Player(object):
         for s in range(0, len(fleet)):
             ship_size = s + 1
             count = fleet[s]
-        
+            
             while count > 0:
+                print ship_size, count
                 if self.board.setup_ship(ship_size, not human):
                     count -= 1
 
