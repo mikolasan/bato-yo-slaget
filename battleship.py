@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # vim: set fileencoding=utf-8
 
+from collections import deque
 import random
 
 class OutofboardError(Exception):
@@ -111,6 +112,8 @@ class Board(object):
         '''Places a ship of ship_size on the board for either a human, if human
         is true, or a computer player.'''
         
+        self.pretty_print()
+        
         if rand:
             #randomize computer player's ships
             x = random.randint(0, self.size)
@@ -215,12 +218,11 @@ class Player(object):
             count = fleet[s]
             
             while count > 0:
-                print ship_size, count
                 if self.board.setup_ship(ship_size, not human):
                     count -= 1
 
 
-    def set_human():
+    def set_human(self):
         self.human = True
 
 
@@ -260,37 +262,32 @@ class Player(object):
             #The player has hit an s and missed.
             print 'Target missed'
             self.board.get(x,y).state = 'miss'
+            return False
         else:
             #A player's ship has been hit! Mark it on the board.
             ship = self.board.get(x,y).ship
-            print ("Hit enemy's " + ship.name)
+            print ("Hit " + self.name + "'s " + ship.name)
             self.board.get(x,y).state = 'fate'
             ship.length -= 1
             if ship.length == 0:
                 for c in ship.cells:
                     c.ship = None
                 for a in ship.area:
-                    cell = self.board.get(a.x, a.y)
-                    if cell.state == 'empty' or cell.state == 'fog':
-                        cell.state = 'near'
+                    size = self.board
+                    if a.x >=0 and a.x < size and a.y >=0 and a.y < size:
+                        cell = self.board.get(a.x, a.y)
+                        if cell.state == 'empty' or cell.state == 'fog':
+                            cell.state = 'near'
                 self.board.ships.remove(ship)
+            return True
 
-    def turn(self):
-        raw_input(self.name + ''''s turn''' + ' push enter to continue')
-        if not self.human and self.opponent.human:
-            pass
-        else:
-            print 'Your board:'
-            self.print_map(True)
-            print '''Your view of your opponent's board:'''
-            self.print_map(False)
-            # Print your view of the opponents map.
-        self.fire()
-        for n in range(20):
-            print ''
-
+    def print_board(self):
+        print (self.name + "'s board")
+        self.board.pretty_print()
     
     
+# http://stackoverflow.com/questions/2150108/efficient-way-to-shift-a-list-in-python
+ 
 class Game(object):
 
     def __init__(self):
@@ -306,14 +303,15 @@ class Game(object):
         while n_players > 2 or n_players < 0:
             n_players = int(input("State the number of human players(0,1 or 2): "))
 
-        self.players = {}
+        self.players = deque()
         for i in range(0, 2):
-            self.players[i] = Player()
+            p = Player()
             if n_players > i:
-                self.players[i].set_human()
-                self.players[i].name = raw_input('What is your name player ' + (i+1) + '? ')
-            self.players[i].init_board(size).setup_ships(fleet_settings)
-
+                p.set_human()
+                p.name = raw_input('What is your name player ' + str(i+1) + '? ')
+            p.init_board(size, fleet_settings)
+            self.players.append(p)
+            
 
         self.game_over = False
         self.curr_player = self.players[0]
@@ -329,23 +327,35 @@ class Game(object):
                 except Exception:
                     settings = self.define_ships()
         return settings
-                   
-    def play(self):
+        
+    def clear_screen(self):
         for n in range(40):
             print ''
-        while not self.game_over:
-            self.curr_player.turn()
-            self.game_over = (not self.curr_player.score)
-            self.curr_opponent, self.curr_player = (self.curr_player, 
-                                                    self.curr_opponent)
+
+    def turn(self):
+        x, y = self.curr_player.fire(self.curr_opponent.board)
+        hit = self.curr_opponent.on_fire(x, y)
+        self.curr_opponent.print_board()
+        self.game_over = (len(self.curr_opponent.board.ships) == 0)
+        
+        if not hit:
             #Swap player's seats.
-        self.curr_opponent.print_map(False)
+            self.players.rotate(1)
+            self.curr_player = self.players[0]
+            self.curr_opponent = self.players[1]
+
+        
+            
+
+    def play(self):
+        while not self.game_over:
+            self.turn()
         print self.curr_opponent.name + ''' wins!'''
 
 
 
-#game = Game()
-#game.play()
+game = Game()
+game.play()
 
 
 
