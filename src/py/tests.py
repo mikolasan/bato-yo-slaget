@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # vim: set fileencoding=utf-8
 
-from battleship import Cell
+from battleship.Cell import Cell
+from battleship.Ship import Ship
+from battleship.Board import Board
+from battleship.Player import Player
 
 def test_cells():
     board = []
@@ -9,11 +12,7 @@ def test_cells():
         board.append(Cell(0, i))
     for c in board:
         print c.x, c.y, c.state
-        
-#test_cells()
 
-
-from battleship import Ship
 
 def test_ship():
     ship = Ship()
@@ -21,12 +20,7 @@ def test_ship():
     print ship.name, " area: ", len(ship.area)
     for c in ship.area:
         print c.x, c.y
-    
-        
-#test_ship()
 
-
-from battleship import Board
 
 def test_board():
     board = Board(10)
@@ -37,11 +31,7 @@ def test_board():
     board.add_ship(ship1.cells)
     board.add_ship(ship2.cells)
     board.pretty_print()
-    
-        
-#test_board()
 
-from battleship import Player
 
 def test_player():
     player = Player()
@@ -52,6 +42,11 @@ def test_player():
     print x, y
     player.on_fire(x, y)
     player.board.pretty_print()
-    
+
+
+test_cells()
+test_ship()
+test_board()    
 test_player()
-    
+
+
