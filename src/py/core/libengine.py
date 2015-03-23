@@ -31,38 +31,28 @@ if sys.platform=="win32":
     os.environ['SDL_VIDEODRIVER']='windib'
 
 
-    
 
 def run():
     pygame.init()
-
-    menu = pygame.display.init()
-
     size = (760, 660)
     screen = pygame.display.set_mode(size)
-
-
-
-    pygame.display.set_caption('Battleship')
+    pygame.display.set_caption('Bato-yo-slaget')
 
     done = False
-
     clock = pygame.time.Clock()
-    pygame.mouse.set_visible(False)
+    #pygame.mouse.set_visible(False)
     back = [0,0,200]
     game = Game()
-    
 
     while done == False:
         done = game.controller()
         game.run_logic()
         game.display_frame(screen)
-
-
-    
         clock.tick(20)
-    pygame.quit()
-    print "quit"
 
-if __name__=="__main__":
-    run()
+    pygame.quit()
+
+
+if __name__=="__main__": run()
+
+

@@ -19,4 +19,20 @@ class Cell(object):
     def set_state(self, state):
         self.state = state
         
+    def draw(self):
+        s = ""
+        if self.state == 'empty':
+            s = "."
+        elif self.state == 'ship':
+            s = "x"
+        elif self.state == 'near':
+            s = "*"
+        elif self.state == 'fate':
+            s = "%"
+        elif self.state == 'miss':
+            s = "o"
+        elif self.state == 'fog':
+            s = "~"
+        return s
+        
 

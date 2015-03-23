@@ -1,3 +1,4 @@
+
 import os
 import random
 import pygame
@@ -5,12 +6,12 @@ from pygame import *
 from game_functions import *
 from ship_classes import *
 
+
 background_image = pygame.image.load(os.path.join(art_dir, 'back.bmp'))
 menu_image = pygame.image.load(os.path.join(art_dir, 'menu.bmp'))
 
 back_color = (15,25,71)
 s_color = (236, 245, 154)
-
 
 
 class Game():
@@ -26,19 +27,9 @@ class Game():
 
     cpu_player = 0
 
-
     set_ship = 10
     xs = 0
     ys = 0
-
-    res = ''
-    descartes_p = []
-    descartes_cpu = []
-
-    menu_choice = 0
-    menu_pick = False
-
-    gameover = ''
 
     res = ''
     res_p = ''
@@ -46,6 +37,9 @@ class Game():
     descartes_cpu = []
 
     window = 'main'
+    menu_choice = 0
+    menu_pick = False
+    gameover = ''
 
     
     def __init__(self):

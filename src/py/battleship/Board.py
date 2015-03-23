@@ -89,19 +89,7 @@ class Board(object):
         s = ""
         for y in range(self.size):
             for x in range(self.size):
-                state = self.board[(x,y)].state
-                if state == 'empty':
-                    s += "."
-                elif state == 'ship':
-                    s += "x"
-                elif state == 'near':
-                    s += "*"
-                elif state == 'fate':
-                    s += "%"
-                elif state == 'miss':
-                    s += "o"
-                elif state == 'fog':
-                    s += "~"
+                s += self.board[(x,y)].draw()
             s += "\n"
         print s
 
