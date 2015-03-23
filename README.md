@@ -1,12 +1,17 @@
-Battleship
+Bato-yo-slaget (Battleship)
 ==========
 
-A simple python implimentation of the battleship game.
+A python implimentation of the classic battleship game.
 
-The game prompts the user for the number of human players, the size of the board and the number of each type of ship.
+## History
 
-The user may place theri own ships or have them placed randomly on the board.
+Basic logic inited on [@JBKahn](https://github.com/JBKahn/Battleship) code.
 
-Each turn the user is shown his board and his view of the opponents board after clearing the previous view by printing newline characters.
+Features that I liked:
 
-The CPU players are 'dumb' and they fire randomly without any kind of intelligence or strategy.
+- board size is a variable
+- amount of cpu players defined in runtime
+- user ships can be placed on the board randomly
+- simple console output
+
+
