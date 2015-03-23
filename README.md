@@ -5,7 +5,7 @@ A python implimentation of the classic battleship game.
 
 ## History
 
-Basic logic inited on [@JBKahn](https://github.com/JBKahn/Battleship) code.
+Basic logic inited on @JBKahn [code](https://github.com/JBKahn/Battleship).
 
 Features that I liked:
 
