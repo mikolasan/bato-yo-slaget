@@ -5,7 +5,7 @@ A python implimentation of the classic battleship game.
 
 ## History
 
-Basic logic inited on [@JBKahn](https://github.com/JBKahn/Battleship) code.
+Basic logic inited on **@JBKahn** [code](https://github.com/JBKahn/Battleship).
 
 Features that I liked:
 
@@ -14,4 +14,4 @@ Features that I liked:
 - user ships can be placed on the board randomly
 - simple console output
 
-
+From **@tmac-balla** I've taken [code](https://github.com/tmac-balla/battleship-game) to provide visualisation of game logic on PyGame library.
