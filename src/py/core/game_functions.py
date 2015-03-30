@@ -308,7 +308,8 @@ def set_ships(mat):
 ######################################################################################       
 
 def put_boards(b1, b2, coord_p, coord_cpu, p_cells, cpu_cells):
-
+	# b1 - player
+	# b2 - cpu
 
     x1=y1=21
     for row in b2:
