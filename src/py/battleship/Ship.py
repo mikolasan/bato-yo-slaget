@@ -32,6 +32,7 @@ class Ship(object):
             self.name = self.names[self.length - 1]
         except IndexError:
             self.name = "UFO"
+        self.direction = direction
         self.area = self.find_area()
     
     def find_area(self):

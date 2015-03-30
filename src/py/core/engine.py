@@ -13,6 +13,7 @@ def fit(surf,size):
     return surf
 
 class Engine:
+    
     def __init__(self):
         self.fullscreen = False
         #The screen width, what resolution the screen is scaled to
@@ -32,6 +33,7 @@ class Engine:
         self.clock = None
         self.world = None   #Change what world is set to to change between scenes or modes
         self.next_tick = 0.0
+    
     def start(self):
         """Separate from __init__ in case we want to make the object before making the screen"""
         pygame.init()
@@ -39,12 +41,16 @@ class Engine:
         self.running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font("fonts/vera.ttf",12)
+    
     def stop(self):
         self.running = False
+    
     def pause(self):
         self.paused = True
+    
     def unpause(self):
         self.paused = False
+    
     def update(self):
         """One tick, according to dt"""
         self.next_tick += self.dt
@@ -52,6 +58,7 @@ class Engine:
             while self.next_tick>0:
                 self.next_tick -= 1
                 self.world.update()
+    
     def make_screen(self):
         flags = pygame.RESIZABLE|pygame.FULLSCREEN*self.fullscreen
         self.window = pygame.display.set_mode([self.swidth,self.sheight],flags)
@@ -59,8 +66,10 @@ class Engine:
         self.blank = self.surface.convert()
         self.blank.fill([0,0,0])
         pygame.display.set_icon(pygame.image.load("art/icons/ico.png"))
+    
     def clear_screen(self):
         self.surface.blit(self.blank,[0,0])
+    
     def draw_screen(self):
         showfps = self.show_fps
         self.window.fill([10,10,10])
