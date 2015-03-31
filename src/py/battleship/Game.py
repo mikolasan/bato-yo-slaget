@@ -9,26 +9,25 @@ from Player import Player
  
 class Game(object):
 
-    def __init__(self):
+    def __init__(self, size = 0, n_players = -1):
         print "Welcome on board"
 
-        size = 0
         while size < 1:
             size = int(input("What size board would you like? "))
             
         fleet_settings = self.define_ships()
         
-        n_players = -1
         while n_players > 2 or n_players < 0:
             n_players = int(input("State the number of human players(0,1 or 2): "))
 
         self.players = deque()
         for i in range(0, 2):
-            p = Player()
+            p = self.composite()
             if n_players > i:
                 p.set_human()
-                p.name = raw_input('What is your name player ' + str(i+1) + '? ')
-            p.init_board(size, fleet_settings)
+                #p.name = raw_input('What is your name player ' + str(i+1) + '? ')
+                p.name = 'Player ' + str(i+1)
+            p.init_board(size, fleet_settings, 0)
             self.players.append(p)
             
 
@@ -36,6 +35,8 @@ class Game(object):
         self.curr_player = self.players[0]
         self.curr_opponent = self.players[1]
         
+    def composite(self):
+        return Player()
 
     def define_ships(self, default_settings = True):
         settings = [4, 3, 2, 1, 0]

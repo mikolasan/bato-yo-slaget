@@ -14,15 +14,14 @@ class Player(object):
         self.human = human
         self.name ='Bot'
 
-    def composite(self, size):
-        return Board(size)
+    def composite(self, size, hidden):
+        return Board(size, hidden)
 
-    def init_board(self, size, fleet):
-        self.board = self.composite(size)
+    def init_board(self, size, fleet, random = -1):
+        self.board = self.composite(size, not self.human)
         
         human = self.human
         if human:
-            random = -1
             while random != 1 and random != 0:
                 random = input("Do you want to place your own ship?(1-Yes, 0-Random):")
             if random == 0:

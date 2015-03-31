@@ -9,14 +9,14 @@ from Ship import Ship
 
 class Board(object):
 
-    def __init__(self, size):
+    def __init__(self, size, hidden = False):
         """Init squared field"""
         self.board = {}
         self.ships = []
         self.size = size
         for i in range(size):
             for j in range(size):
-                self.board[(i,j)] = self.composite(i, j, 'empty')
+                self.board[(i,j)] = self.composite(i, j, hidden and 'fog' or 'empty')
 
     def composite(self, x, y, state):
         return Cell(x, y, state)
@@ -28,7 +28,7 @@ class Board(object):
         '''Places a ship of ship_size on the board for either a human, if human
         is true, or a computer player.'''
         
-        self.pretty_print()
+        #self.pretty_print()
         
         if rand:
             #randomize computer player's ships

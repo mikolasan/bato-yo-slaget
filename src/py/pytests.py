@@ -5,8 +5,7 @@ import os
 import sys
 import pygame
 from pygame.locals import *
-from battleship.Player import *
-from battleship.pygame_board import *
+from battleship.pygame_game import *
 
 
 def init_window():
@@ -41,38 +40,46 @@ def draw_background():
     screen = pygame.display.get_surface() # Получаем поверхность, на которой будем рисовать
     background = pygame.Surface(screen.get_size()) # и ее размер
     background = background.convert()
-    background.fill((0, 0, 0)) # заполняем цветом
+    background.fill((73, 128, 181)) # заполняем цветом
     screen.blit(background, (0, 0)) # рисуем заполненный одним цветом бэкграунд
-    back, back_rect = load_image("back.png") # или загружаем картинку с травой
-    screen.blit(back, (0, 0)) # и рисуем ее
+    #back, back_rect = load_image("back.png") # или загружаем картинку с травой
+    #screen.blit(back, (0, 0)) # и рисуем ее
     pygame.display.flip() # переключаем буфер экрана
-    return back
+    return background
     
     
 def action(bk):
-    player = Player()
-    player.composite = lambda size: PyGame_Board(size)
-    settings = [4, 3, 2, 1, 0]
-    player.init_board(10, settings)
-    fleet = player.board.render
-    
-#    board = PyGame_Board()
-#    fleet = board.render
-    
+
+# test 1
+##########
 #    ships_list = []
 #    screen = pygame.display.get_surface()
 #    for i in range(1, 5):
 #        boat = PyGame_Cell(i, 1, 'empty')
 #        ships_list.append(boat)
-#    fleet = pygame.sprite.RenderPlain(ships_list)
-    
+#    sprites = pygame.sprite.RenderPlain(ships_list)
+
+# test 2
+##########
+#    board = PyGame_Board()
+#    sprites = board.render
+
+# test 3
+##########
+#    player = PyGame_Player()
+#    settings = [4, 3, 2, 1, 0]
+#    player.init_board(10, settings)
+#    sprites = player.board.render
+
     screen = pygame.display.get_surface()
+    game = PyGame_Game()
+    sprites = pygame.sprite.LayeredUpdates(game.get_sprites())
     
     while 1:
         input(pygame.event.get())
         screen.blit(bk, (0, 0))
-        fleet.update() # Стандартный метод проверки, вдруг что-то изменилось. Пригодится для описания движения
-        fleet.draw(screen)
+        sprites.update() # Стандартный метод проверки, вдруг что-то изменилось. Пригодится для описания движения
+        sprites.draw(screen)
         pygame.display.flip()
  
 def main():
