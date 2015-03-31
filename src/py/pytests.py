@@ -5,7 +5,7 @@ import os
 import sys
 import pygame
 from pygame.locals import *
-#from battleship.pygame_cell import *
+from battleship.Player import *
 from battleship.pygame_board import *
 
 
@@ -50,9 +50,14 @@ def draw_background():
     
     
 def action(bk):
+    player = Player()
+    player.composite = lambda size: PyGame_Board(size)
+    settings = [4, 3, 2, 1, 0]
+    player.init_board(10, settings)
+    fleet = player.board.render
     
-    board = PyGame_Board()
-    fleet = board.render
+#    board = PyGame_Board()
+#    fleet = board.render
     
 #    ships_list = []
 #    screen = pygame.display.get_surface()

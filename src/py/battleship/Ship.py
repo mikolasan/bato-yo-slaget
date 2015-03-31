@@ -17,6 +17,9 @@ class Ship(object):
             self.name = "UFO"
         self.area = self.find_area()
 
+    def composite(self, x, y, state):
+        return Cell(x, y, state)
+        
     def create(self, start_x, start_y, length, direction):
         self.length = length
         self.cells = [None] * length
@@ -27,7 +30,7 @@ class Ship(object):
             elif direction == "H":
                 x = start_x + i
                 y = start_y
-            self.cells[i] = Cell(x, y, 'ship')
+            self.cells[i] = self.composite(x, y, 'ship')
         try:
             self.name = self.names[self.length - 1]
         except IndexError:
@@ -59,7 +62,7 @@ class Ship(object):
                         new = False
                         break
                 if new:
-                    cell = Cell(x, y, 'near')
+                    cell = self.composite(x, y, 'near')
                     near.append(cell)
                     engaged.append(cell)
                     

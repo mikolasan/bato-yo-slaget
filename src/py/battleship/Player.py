@@ -13,9 +13,12 @@ class Player(object):
         '''Initializes a player's basic requirements'''
         self.human = human
         self.name ='Bot'
-        
+
+    def composite(self, size):
+        return Board(size)
+
     def init_board(self, size, fleet):
-        self.board = Board(size)
+        self.board = self.composite(size)
         
         human = self.human
         if human:

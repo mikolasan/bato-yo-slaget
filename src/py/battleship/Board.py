@@ -16,7 +16,10 @@ class Board(object):
         self.size = size
         for i in range(size):
             for j in range(size):
-                self.board[(i,j)] = Cell(i, j, 'empty')
+                self.board[(i,j)] = self.composite(i, j, 'empty')
+
+    def composite(self, x, y, state):
+        return Cell(x, y, state)
 
     def get(self, x, y):
         return self.board[(x, y)]
@@ -54,7 +57,7 @@ class Board(object):
             elif orientation == "H":
                 x_ = x + i
                 y_ = y
-            cells[i] = Cell(x_, y_, 'ship')
+            cells[i] = self.composite(x_, y_, 'ship')
         if not self.add_ship(cells):
             self.setup_ship(size, random)
         return True

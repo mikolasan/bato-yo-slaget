@@ -17,15 +17,15 @@ class PyGame_Cell(Cell, pygame.sprite.Sprite):
         Cell.__init__(self, x, y, state)
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((self.size, self.size))
-        self.draw()
+        self._draw()
         self.rect = self.image.get_rect()
         self.rect.left = (self.size + self.padding) * self.x
         self.rect.top = (self.size + self.padding) * self.y
 
     def update(self):
-        self.draw()    
+        self._draw()    
     
-    def draw(self):
+    def _draw(self):
         if self.state == 'ship':
             self.image.fill(self.player_c)
         elif self.state == 'empty':

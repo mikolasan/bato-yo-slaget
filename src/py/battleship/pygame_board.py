@@ -14,14 +14,17 @@ class PyGame_Board(Board, pygame.sprite.Sprite):
         self.image = pygame.Surface((cell * self.size, cell* self.size))
         self.image.fill(self.color)
         self.rect = self.image.get_rect()
-        
-        self.draw_list = [self]
-        for i in range(size):
-            for j in range(size):
-                self.draw_list.append(PyGame_Cell(i, j, 'empty'))
+        self.draw_list = self.get_draw_list()
         self.render = pygame.sprite.LayeredUpdates(self.draw_list)
-        
-        
+
+    def composite(self, x, y, state):
+        return PyGame_Cell(x, y, state)
+
+    def get_draw_list(self):
+        return [self] + [(v) for k, v in self.board.iteritems()]
+
     def update(self):
         self.image.fill(self.color)
+        self.draw_list = self.get_draw_list()
+        self.render = pygame.sprite.LayeredUpdates(self.draw_list)
 
