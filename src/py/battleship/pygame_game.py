@@ -1,10 +1,12 @@
 from battleship.Game import Game
 from battleship.pygame_player import *
+from battleship.pygame_elements import *
 
 class PyGame_Game(Game):
     
     def __init__(self):
         Game.__init__(self, 10, 1)
+        
 
     def composite(self):
         player_id = len(self.players)

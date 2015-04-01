@@ -10,35 +10,9 @@ from battleship.pygame_game import *
 from battleship.pygame_controller import *
 
 
-def init_window():
-    pygame.init()
-    window = pygame.display.set_mode((760, 660))
-    pygame.display.set_caption('Tests')
-    pygame.display.set_icon(pygame.image.load(os.path.join("art", "icons", "ico.png")))
 
     
 def action(bk):
-
-# test 1
-##########
-#    ships_list = []
-#    screen = pygame.display.get_surface()
-#    for i in range(1, 5):
-#        boat = PyGame_Cell(i, 1, 'empty')
-#        ships_list.append(boat)
-#    sprites = pygame.sprite.RenderPlain(ships_list)
-
-# test 2
-##########
-#    board = PyGame_Board()
-#    sprites = board.render
-
-# test 3
-##########
-#    player = PyGame_Player()
-#    settings = [4, 3, 2, 1, 0]
-#    player.init_board(10, settings)
-#    sprites = player.board.render
 
     screen = pygame.display.get_surface()
     game = PyGame_Game()
@@ -55,10 +29,10 @@ def action(bk):
         pygame.display.flip()
  
 def main():
+    engine = Engine()
+    engine.name = 'Bato-yo-slaget'
+    engine.start()
     
-    init_window()
-    back = draw_background()
-    action(bk)
 
 
 if __name__ == '__main__': main()
