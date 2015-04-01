@@ -10,7 +10,11 @@ class PyGame_Player(Player):
         Player.__init__(self, human)
         self._id = player_id
 
-    def composite(self, size, hidden):
+    def composite(self, size):
         x, y = self.places[self._id][0], self.places[self._id][1]
-        return PyGame_Board(size, hidden, x, y)
+        if self.human:
+            return PyGame_Board(size, x, y)
+        else:
+            return PyGame_Enemy_Board(size, x, y)
+        
 

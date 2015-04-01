@@ -6,17 +6,16 @@ import random
 from Cell import Cell
 from Ship import Ship
 
-
 class Board(object):
 
-    def __init__(self, size, hidden = False):
+    def __init__(self, size):
         """Init squared field"""
         self.board = {}
         self.ships = []
         self.size = size
-        for i in range(size):
-            for j in range(size):
-                self.board[(i,j)] = self.composite(i, j, hidden and 'fog' or 'empty')
+        for i in range(self.size):
+            for j in range(self.size):
+                self.board[(i,j)] = self.composite(i, j, 'empty')
 
     def composite(self, x, y, state):
         return Cell(x, y, state)
@@ -24,6 +23,31 @@ class Board(object):
     def get(self, x, y):
         return self.board[(x, y)]
     
+    def reveal(self, x, y):
+        cell = self.board[(x, y)]
+        if cell.state == 'ship':
+            cell.state = 'fate'
+            
+            ship = cell.ship
+            print ("Hit " + self.name + "'s " + ship.name)
+            
+            ship.length -= 1
+            if ship.length == 0:
+                for c in ship.cells:
+                    c.ship = None
+                for a in ship.area:
+                    size = self.size
+                    if a.x >=0 and a.x < size and a.y >=0 and a.y < size:
+                        cell = self.board[(a.x, a.y)]
+                        if cell.state == 'empty' or cell.state == 'fog':
+                            cell.state = 'near'
+                self.ships.remove(ship)
+        else:
+            print 'Target missed'
+            cell.state = 'miss'
+            
+        return cell
+        
     def setup_ship(self, size, rand = True):
         '''Places a ship of ship_size on the board for either a human, if human
         is true, or a computer player.'''
@@ -36,7 +60,7 @@ class Board(object):
             y = random.randint(0, self.size)
             orientation = random.randint(0, 1) == 0 and "V" or "H"
         else:
-            self.pretty_print()
+            #self.pretty_print()
             x = raw_input('What is the x co-ordinate for your ' + str(size) + 
                           '? ')
             y = raw_input('What is the y co-ordinate for your ' + str(size) + 
@@ -61,7 +85,6 @@ class Board(object):
         if not self.add_ship(cells):
             self.setup_ship(size, random)
         return True
-        
 
     def add_ship(self, cells):
         ship = Ship(cells)
@@ -87,13 +110,50 @@ class Board(object):
                 self.board[(c.x, c.y)].ship = ship
             return True
         return False
-
+        
     def pretty_print(self):
         s = ""
         for y in range(self.size):
             for x in range(self.size):
-                s += self.board[(x,y)].draw()
+                s += self.get(x, y).draw()
             s += "\n"
         print s
+        
+
+class Enemy_Board(Board):
+
+    def __init__(self, size):
+        """Init squared field"""
+        self.board = {}
+        self.ships = []
+        self.size = size
+        for i in range(self.size):
+            for j in range(self.size):
+                self.board[(i,j)] = self.composite(i, j, 'fog')
+
+    def add_ship(self, cells):
+        ship = Ship(cells)
+        
+        # check collisions
+        collision = []
+        for new in cells:
+            if (new.x < 0 or new.x >= self.size or
+                    new.y < 0 or new.y >= self.size):
+                #raise OutofboardError()
+                return False
+            for s in self.ships:
+                for full in (s.cells + s.area):
+                    if full.x == new.x and full.y == new.y:
+                        #collision.append(new)
+                        #raise ShipAlreadyThere()
+                        return False
+        
+        if len(collision) == 0:
+            self.ships.append(ship)
+            for c in cells:
+                self.board[(c.x, c.y)].set_state('fog')
+                self.board[(c.x, c.y)].ship = ship
+            return True
+        return False
 
 

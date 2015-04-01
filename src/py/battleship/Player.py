@@ -14,11 +14,14 @@ class Player(object):
         self.human = human
         self.name ='Bot'
 
-    def composite(self, size, hidden):
-        return Board(size, hidden)
+    def composite(self, size):
+        if self.human:
+            return Board(size)
+        else:
+            return Enemy_Board(size)
 
     def init_board(self, size, fleet, random = -1):
-        self.board = self.composite(size, not self.human)
+        self.board = self.composite(size)
         
         human = self.human
         if human:
@@ -68,35 +71,16 @@ class Player(object):
 
     def on_fire(self, x, y):
         '''Fired at coordinates (x,y)'''
-
-        state = self.board.get(x,y).state
-        if (state == 'near' or 
-              state == 'empty' or
-              state == 'fog'):
-            #The player has hit an s and missed.
-            print 'Target missed'
-            self.board.get(x,y).state = 'miss'
-            return False
-        else:
+        cell = self.board.reveal(x,y)
+        state = cell.state
+        if state == "fate":
             #A player's ship has been hit! Mark it on the board.
-            ship = self.board.get(x,y).ship
-            print ("Hit " + self.name + "'s " + ship.name)
-            self.board.get(x,y).state = 'fate'
-            ship.length -= 1
-            if ship.length == 0:
-                for c in ship.cells:
-                    c.ship = None
-                for a in ship.area:
-                    size = self.board
-                    if a.x >=0 and a.x < size and a.y >=0 and a.y < size:
-                        cell = self.board.get(a.x, a.y)
-                        if cell.state == 'empty' or cell.state == 'fog':
-                            cell.state = 'near'
-                self.board.ships.remove(ship)
             return True
+        else:
+            #The player has hit and missed.
+            return False
 
     def print_board(self):
         print (self.name + "'s board")
         self.board.pretty_print()
-
 
