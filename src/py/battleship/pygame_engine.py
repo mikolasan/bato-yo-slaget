@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# vim: set fileencoding=utf-8
+
 #
 # engine.py - handles generally running the game
 # can set a game resolution (iwidth, iheight) as well as a screen resolution
@@ -20,8 +23,8 @@ class Engine:
     def __init__(self):
         self.fullscreen = False
         #The screen width, what resolution the screen is scaled to
-        self.swidth = 640
-        self.sheight = 480
+        self.swidth = 760
+        self.sheight = 660
         #The interactive width, what resolution the game is actually rendered at
         self.iwidth = 320
         self.iheight = 240
@@ -41,8 +44,8 @@ class Engine:
     def start(self):
         """Separate from __init__ in case we want to make the object before making the screen"""
         pygame.init()
-        self.back = self.draw_background()
         self.make_screen()
+        self.back = self.draw_background()
         self.running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font("fonts/vera.ttf",12)
@@ -96,13 +99,12 @@ class Engine:
     def make_screen(self):
         flags = pygame.RESIZABLE|pygame.FULLSCREEN*self.fullscreen
         self.window = pygame.display.set_mode([self.swidth,self.sheight],flags)
-        self.surface = pygame.Surface([self.iwidth,self.iheight]).convert()
-        self.blank = self.surface.convert()
-        self.blank.fill([0,0,0])
+        self.surface = pygame.display.get_surface() #pygame.Surface([self.iwidth,self.iheight]).convert()
+        #self.blank = self.surface.convert()
+        #self.blank.fill([0,0,0])
         pygame.display.set_caption(self.name)
         pygame.display.set_icon(pygame.image.load(os.path.join("art", "icons", "ico.png")))
-        
-    
+            
     
     def clear_screen(self):
         self.surface.blit(self.blank,[0,0])
@@ -119,3 +121,5 @@ class Engine:
         if showfps:
             self.window.blit(self.font.render(str(self.clock.get_fps()),1,[255,0,0]),[0,self.window.get_height()-12])
         pygame.display.flip()
+        
+
