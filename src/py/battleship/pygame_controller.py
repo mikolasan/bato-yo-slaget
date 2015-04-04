@@ -51,90 +51,79 @@ class Controller:
 
 class Menu_Controller(Controller):
     def input(self, events):
+        
+        Controller.input(self, events)
+        
+        scene = self.engine.world
+        
         for e in events:
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_UP:
-                    self.menu_choice -= 1
-                    if self.menu_choice < 0:
-                        self.menu_choice = 0
-
+                    scene.select(-1)
+                    
                 elif e.key == pygame.K_DOWN:
-                    self.menu_choice += 1
-                    if self.menu_choice > 3:
-                        self.menu_choice = 3
+                    scene.select(1)
 
                 elif e.key == pygame.K_RETURN:
-                    self.menu_pick = True
-                    if self.menu_choice == 3 and self.menu_pick:
-                        return True
+                    if scene.menu_choice == 0:
+                        self.engine.switch_scene('battleship')
+                    elif scene.menu_choice == 3:
+                        sys.exit(0)
                     
-                elif e.key == pygame.K_ESCAPE:
-                    self.pause = not self.pause
-                    self.menu_choice = 0
+#                elif e.key == pygame.K_ESCAPE:
+#                    self.pause = not self.pause
+#                    scene.menu_choice = 0
 
             elif e.type == pygame.KEYUP:
                 if e.key == pygame.K_RETURN:
-                    self.menu_pick = False
-                    
-        return False
+                    scene.menu_pick = False
+
         
 class Game_Controller(Controller):
     def input(self, events):
+    
+        Controller.input(self, events)
+        
+        scene = self.engine.world
+        
         for e in events:
-            if e.type == pygame.QUIT: 
-                return True
-
-            elif e.type == pygame.KEYDOWN:
+            if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_UP:
-                    self.ys = -35
+                    scene.move_aim('up')
 
                 elif e.key == pygame.K_DOWN:
-                    self.ys = 35
+                    scene.move_aim('down')
 
                 elif e.key == pygame.K_LEFT:
-                    self.xs = -35
+                    scene.move_aim('left')
 
                 elif e.key == pygame.K_RIGHT:
-                    self.xs = 35
+                    scene.move_aim('right')
 
                 elif e.key == pygame.K_SPACE:
                     
-                    self.set_ship -= 1
-                    ship_coord_check(self.descartes_p, self.all_sprites,self. pla_board, self.set_ship)
+                    scene.place()
                     
                 elif e.key == pygame.K_RETURN:
-                    if self.cpu_player > 0:
-                        self.res_p = res_check(self.descartes_cpu, self.aim, self.cpu_board)
-                        
-                        hit_coord_check(self.descartes_cpu, self.aim, self.cpu_board)
-                        self.cpu_player = (-1)*self.cpu_player
+                    scene.hit()
 
                 elif e.key == pygame.K_ESCAPE:
-                    self.pause = not self.pause
-                    self.menu_choice = 0
-
-                elif e.key == pygame.K_w:
-                    self.set_ship += 1
+                    self.engine.switch_scene('menu')
 
                 elif e.key == pygame.K_TAB:
-                    # rotate ship
-                    pass
+                    scene.rotate_ship()
 
-            elif e.type == pygame.KEYUP:
-                if e.key == pygame.K_UP:
-                    self.ys = 0
-                if e.key == pygame.K_LEFT:
-                    self.xs=0
+#            elif e.type == pygame.KEYUP:
+#                if e.key == pygame.K_UP:
+#                    self.ys = 0
+#                elif e.key == pygame.K_LEFT:
+#                    self.xs=0
 
-                elif e.key == pygame.K_RIGHT:
-                    self.xs = 0
+#                elif e.key == pygame.K_RIGHT:
+#                    self.xs = 0
 
-                elif e.key == pygame.K_DOWN:
-                    self.ys = 0
-                    
-        return False
-        
-        
-    def handle_pygame_event(self,e):
-        """Ideally, build this out with state so that the world
-        can make a query like controller.enter_was_pressed or key_held_for(3)"""
+#                elif e.key == pygame.K_DOWN:
+#                    self.ys = 0
+
+
+

@@ -39,6 +39,7 @@ class Engine:
         self.show_fps = True
         self.clock = None
         self.world = None   #Change what world is set to to change between scenes or modes
+        self.scenes = {}
         self.next_tick = 0.0
     
     def start(self):
@@ -109,17 +110,30 @@ class Engine:
     def clear_screen(self):
         self.surface.blit(self.blank,[0,0])
     
-    def draw_screen(self):
-        showfps = self.show_fps
-        self.window.fill([10,10,10])
-        def draw_segment(dest,surf,pos,size):
-            rp = [pos[0]*self.swidth,pos[1]*self.sheight]
-            rs = [size[0]*self.swidth,size[1]*self.sheight]
-            surf = fit(surf,rs)
-            dest.blit(surf,rp)
-        draw_segment(self.window,self.surface,[0,0],[1,1])
-        if showfps:
-            self.window.blit(self.font.render(str(self.clock.get_fps()),1,[255,0,0]),[0,self.window.get_height()-12])
-        pygame.display.flip()
+    def add_scene(self, name, obj, ctrl, set_current = True):
+        self.scenes[name] = dict({'world': obj, 'controller': ctrl})
+        if set_current:
+            self.scene = name
+            self.world = obj
+            self.controller = ctrl
+            
+    def switch_scene(self, name):
+        if name in self.scenes:
+            self.scene = name
+            self.world = self.scenes[name]['world']
+            self.controller = self.scenes[name]['controller']
+    
+    def draw_scene(self):
+    
+        self.controller.input(pygame.event.get())
         
+        screen = self.surface
+        screen.blit(self.back, (0, 0))
+        
+        sprites = pygame.sprite.LayeredUpdates(self.world.get_sprites())
+        sprites.update() # Стандартный метод проверки, вдруг что-то изменилось. Пригодится для описания движения
+        sprites.draw(screen)
+        
+        pygame.display.flip()
 
+        
