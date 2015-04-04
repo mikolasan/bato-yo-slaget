@@ -102,7 +102,7 @@ class Game_Controller(Controller):
 
                 elif e.key == pygame.K_SPACE:
                     
-                    scene.place()
+                    scene.place_ship()
                     
                 elif e.key == pygame.K_RETURN:
                     scene.hit()

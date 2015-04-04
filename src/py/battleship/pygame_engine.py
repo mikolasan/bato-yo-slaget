@@ -49,7 +49,7 @@ class Engine:
         self.back = self.draw_background()
         self.running = True
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font("fonts/vera.ttf",12)
+        self.font = pygame.font.Font(os.path.join("fonts", "neo_retro.ttf"),12)
     
     def stop(self):
         self.running = False
