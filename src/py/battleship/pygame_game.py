@@ -8,33 +8,25 @@ class PyGame_Game(Game):
         Game.__init__(self, 10, 1)
         
         self.aim = Aim()
-        self.aim.rect.x = 380
-        self.aim.rect.y = 300
         self.aim_group = sprite.Group()
         self.aim_group.add(self.aim)
-        
-        self.aim_dx = 0
-        self.aim_dy = 0
-        
+    
+    def initialize(self):
+        pygame.key.set_repeat(500, 30)      
+    
     def move_aim(self, course):
         if course == 'up':
-            self.aim.rect.y -= 34
+            self.aim.dy -= 1
         elif course == 'down':
-            self.aim.rect.y += 34
+            self.aim.dy += 1
         elif course == 'left':
-            self.aim.rect.x -= 34
+            self.aim.dx -= 1
         elif course == 'right':
-            self.aim.rect.x += 34
-    
-#        if course == 'up':
-#            self.aim_dy -= 34
-#        elif course == 'down':
-#            self.aim_dy += 34
-#        elif course == 'left':
-#            self.aim_dx -= 34
-#        elif course == 'right':
-#            self.aim_dx += 34
-            
+            self.aim.dx += 1
+
+    def hit(self):
+        h = self.curr_opponent.on_fire(self.aim.x, self.aim.y)
+                    
     def composite(self):
         player_id = len(self.players)
         return PyGame_Player(player_id)

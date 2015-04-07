@@ -113,15 +113,15 @@ class Engine:
     def add_scene(self, name, obj, ctrl, set_current = True):
         self.scenes[name] = dict({'world': obj, 'controller': ctrl})
         if set_current:
-            self.scene = name
-            self.world = obj
-            self.controller = ctrl
+            self.switch_scene(name)
             
     def switch_scene(self, name):
         if name in self.scenes:
             self.scene = name
             self.world = self.scenes[name]['world']
             self.controller = self.scenes[name]['controller']
+            if self.world.initialize:
+                self.world.initialize()
     
     def draw_scene(self):
     

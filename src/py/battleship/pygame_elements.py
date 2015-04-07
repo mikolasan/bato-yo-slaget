@@ -21,27 +21,36 @@ pygame.font.init()
 
 
 class Aim(pygame.sprite.Sprite):
-    x = 21
-    y = 21
+    x = 0
+    y = 0
 
-    x_shift = 0
-    y_shift = 0
+    sx = 380
+    sy = 300
+    
+    dx = 0
+    dy = 0
+    
+    side = 32
+    step = 34
     
     color = (0, 0, 0)
     
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((32, 32))
-
+        #self.image = pygame.Surface((self.side, self.side))
         self.image = gun
         self.rect = self.image.get_rect()
-
+        self.rect.x = self.sx
+        self.rect.y = self.sy
 
     def update(self):
-        self.rect.x += self.x_shift
-        #self.x_shift = 0
-        self.rect.y += self.y_shift
-        #self.y_shift = 0
+        self.x = (self.x + self.dx) % 10
+        self.rect.x = self.sx + self.x * self.step
+        self.dx = 0
+        
+        self.y = (self.y + self.dy) % 10
+        self.rect.y = self.sy + self.y * self.step
+        self.dy = 0
         
         
 class MenuElement(pygame.sprite.Sprite):
@@ -181,6 +190,9 @@ class Menu(object):
         self.menu_choice = 0
         self.menu_pick = False
         self.gameover = ''
+
+    def initialize(self):
+        pygame.key.set_repeat() # disable
 
     def select(self, shift):
         getattr(self, 'mmenu' + str(self.menu_choice + 1)).is_chosen = False

@@ -25,7 +25,7 @@ class PyGame_Cell(Cell, pygame.sprite.Sprite):
         self.rect.top = cy + (self.size + self.padding) * self.y
 
     def update(self):
-        self._draw()    
+        self._draw()
     
     def _draw(self):
         if self.state == 'ship':
@@ -38,3 +38,5 @@ class PyGame_Cell(Cell, pygame.sprite.Sprite):
             self.image.fill(self.fate_c)
         elif self.state == 'fog':
             self.image.fill(self.fog_c)
+        elif self.state == 'miss':
+            self.image.fill(self.empty_c)

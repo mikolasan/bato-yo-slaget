@@ -25,11 +25,17 @@ class Board(object):
     
     def reveal(self, x, y):
         cell = self.board[(x, y)]
-        if cell.state == 'ship':
+        # escape repeated hits
+        if (cell.state == 'fate' or
+                cell.state == 'miss' or
+                cell.state == 'near'):
+            return cell
+        
+        if cell.ship:
             cell.state = 'fate'
             
             ship = cell.ship
-            print ("Hit " + self.name + "'s " + ship.name)
+            print ("Hit " + ship.name)
             
             ship.length -= 1
             if ship.length == 0:
@@ -42,10 +48,13 @@ class Board(object):
                         if cell.state == 'empty' or cell.state == 'fog':
                             cell.state = 'near'
                 self.ships.remove(ship)
+            #cell.ship = None
+            self.board[(x, y)].ship = None
         else:
             print 'Target missed'
             cell.state = 'miss'
-            
+        
+        self.debug_print()    
         return cell
         
     def setup_ship(self, size, rand = True):
@@ -119,6 +128,15 @@ class Board(object):
             s += "\n"
         print s
         
+    def debug_print(self):
+        s = ""
+        for y in range(self.size):
+            for x in range(self.size):
+                ship = self.board[(x, y)].ship
+                s += ship == None and "~" or str(ship.length)
+            s += "\n"
+        print s
+
 
 class Enemy_Board(Board):
 
