@@ -37,6 +37,7 @@ class PyGame_Game(Game):
             sprites = sprites + p.board.draw_list
         if self.curr_player.human:
             sprites.append(self.aim_group)
+
         return sprites
         
 

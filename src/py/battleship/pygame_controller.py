@@ -17,7 +17,8 @@ class Controller:
     
     def input(self, events):
         for e in events:
-            if (e.type == pygame.QUIT) or (e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE): 
+            if (e.type == pygame.QUIT) or (e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE):
+                pygame.quit()
                 sys.exit(0)
                 
 #    def input(self):
@@ -48,6 +49,28 @@ class Controller:
 #            self.handle_pygame_event(e)
 #        if engine.world:
 #            engine.world.input(self)
+
+class Modal_Controller(Controller):
+    def input(self, events):
+        
+        Controller.input(self, events)
+        
+        dialog = self.engine.dialog
+        
+        for e in events:
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_ESCAPE:
+                    dialog.exit()
+                    
+                elif e.key == pygame.K_LEFT:
+                    dialog.select('left')
+
+                elif e.key == pygame.K_RIGHT:
+                    dialog.select('right')
+                       
+                elif e.key == pygame.K_RETURN:
+                    dialog.choose()
+                    
 
 class Menu_Controller(Controller):
     def input(self, events):

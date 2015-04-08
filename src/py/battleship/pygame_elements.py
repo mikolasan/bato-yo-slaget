@@ -51,49 +51,9 @@ class Aim(pygame.sprite.Sprite):
         self.y = (self.y + self.dy) % 10
         self.rect.y = self.sy + self.y * self.step
         self.dy = 0
-        
-        
+
+
 class MenuElement(pygame.sprite.Sprite):
-    c = (250,250,250)
-    
-    font = pygame.font.Font(os.path.join(fonts_dir,font_name), 20)
-    font_big = pygame.font.Font(os.path.join(fonts_dir, font_name), 30)
-    
-    def __init__(self, text, y, is_chosen):
-        pygame.sprite.Sprite.__init__(self)
-        
-        self.txt = self.font.render(text ,True, (100,100,100))
-        self.text = text
-        self.is_chosen = is_chosen
-
-        self.image = pygame.Surface((200, 60))
-            
-        self.image.set_colorkey((0,0,0))
-        self.rect = self.image.get_rect()
-        self.image.blit(self.txt, [5,5])
-        self.rect.x = 320
-        self.rect.y = y
-
-        
-
-    def update(self):
-        self.image = pygame.Surface((200, 60))
-        
-        if self.is_chosen:
-            self.txt = self.font_big.render(self.text ,True, menu_back_c)
-            self.image.fill(menu_font_selected_c)
-            self.image.blit(self.txt, [-5,5])
-
-        if not self.is_chosen:
-            self.txt = self.font.render(self.text ,True, (0,0,0))
-            self.image.fill(menu_back_c)
-            self.image.blit(self.txt, [5,5])
-            
-        self.image.set_colorkey((0,0,0))
-        
-
-
-class MainMenuElement(pygame.sprite.Sprite):
     
     font = pygame.font.Font(os.path.join(fonts_dir, font_name), 40)
     font_big = pygame.font.Font(os.path.join(fonts_dir, font_name), 50)
@@ -105,7 +65,7 @@ class MainMenuElement(pygame.sprite.Sprite):
         self.text = text
         self.is_chosen = is_chosen
 
-        self.image = pygame.Surface((315, 100))
+        self.image = pygame.Surface((315, 60))
         
             
         self.image.set_colorkey((0,0,0))
@@ -117,20 +77,79 @@ class MainMenuElement(pygame.sprite.Sprite):
         
 
     def update(self):
-        self.image = pygame.Surface((315, 60))
+        self.image = pygame.Surface((315, 60)).convert()
         
         if self.is_chosen:
             self.image.fill(menu_back_selected_c)
+            self.image.set_colorkey(menu_back_selected_c)
             self.txt = self.font.render(self.text ,True, menu_font_selected_c)
             #self.txt = self.font_big.render(self.text ,True, menu_font_selected_c)
             self.image.blit(self.txt, [30,5])
-
-        if not self.is_chosen:
+        else:
             self.image.fill(menu_back_c)
+            self.image.set_colorkey(menu_back_c)
             self.txt = self.font.render(self.text ,True, menu_font_c)
             self.image.blit(self.txt, [30,5])
             
-        self.image.set_colorkey((0,0,0))
+        
+
+
+#gameover = Modal_dialog(315, 100, 'GAME OVER', {'Play again', 'Menu'})
+class Modal_dialog(pygame.sprite.OrderedUpdates):
+    font = pygame.font.Font(os.path.join(fonts_dir, font_name), 20)
+
+    _ready = False
+    _full = False
+    answer = None
+    callback = None
+    selection = 0
+    
+    def __init__(self):
+        pygame.sprite.OrderedUpdates.__init__(self)
+    
+    def setup(self, width = 315, height = 200):
+        print "call setup"
+        self.selection = 0
+        self.answer = None
+        
+        
+                    
+        back = pygame.sprite.Sprite()
+        back.image = pygame.Surface((width, height))
+        back.image.fill(menu_back_c)
+        back.rect = back.image.get_rect()
+        back.rect.x = 250
+        back.rect.y = 0#200
+        title = self.font.render(self._title, True, menu_font_c)
+        back.image.blit(title, [30, 5])
+        print 'image', back.image.get_bitsize()
+        self.add(back)
+        
+        for i, a in enumerate(self._answers):
+            item = MenuElement(a, 0, i == self.selection)
+            self.add(item)
+            
+        self._ready = False
+        self._full = True
+
+    def select(self, trend):
+        size = len(self._answers)
+        if trend == "left":
+            self.selection = (self.selection - 1) % size
+        elif trend == "right":
+            self.selection = (self.selection + 1) % size
+        print "change selection to", self.selection
+
+    def choose(self):
+        self.answer = self.selection
+        self.callback(self.answer)
+        self._full = False
+        self.callback = None
+
+    def update(self):
+        pygame.sprite.Group.update(self)
+#        for sprite in self.sprites():
+
 
 
 class Gameover_window(pygame.sprite.Sprite):
@@ -156,7 +175,7 @@ class Menu(object):
     def __init__(self):
         self.menu_group = sprite.Group()
         
-        self.menu1 = MenuElement('CONTINUE', 200, True)
+        self.menu1 = MenuElement('NEW GAME', 200, True)
         self.menu_group.add(self.menu1)
         
         self.menu2 = MenuElement('SETTINGS', 260, False)
@@ -168,24 +187,9 @@ class Menu(object):
         self.menu4 = MenuElement('QUIT', 380, False)
         self.menu_group.add(self.menu4)
         
-        self.main_menu_group = sprite.Group()
+        #self.menu1_1 = MenuElement('NEW GAME', 200, True)
+        #self.menu_group.add(self.mmenu1)
         
-        self.mmenu1 = MainMenuElement('NEW GAME', 200, True)
-        self.main_menu_group.add(self.mmenu1)
-        
-        self.mmenu2 = MainMenuElement('SETTINGS', 260, False)
-        self.main_menu_group.add(self.mmenu2)
-
-        self.mmenu3 = MainMenuElement('CONTROLS', 320, False)
-        self.main_menu_group.add(self.mmenu3)
-
-        self.mmenu4 = MainMenuElement('QUIT', 380, False)
-        self.main_menu_group.add(self.mmenu4)
-        
-        self.gameover_group = sprite.Group()
-        
-        self.gameover_window = Gameover_window()
-        self.gameover_group.add(self.gameover_window)
         
         self.menu_choice = 0
         self.menu_pick = False
@@ -195,7 +199,7 @@ class Menu(object):
         pygame.key.set_repeat() # disable
 
     def select(self, shift):
-        getattr(self, 'mmenu' + str(self.menu_choice + 1)).is_chosen = False
+        getattr(self, 'menu' + str(self.menu_choice + 1)).is_chosen = False
         
         self.menu_choice += shift
         if self.menu_choice < 0:
@@ -203,9 +207,9 @@ class Menu(object):
         elif self.menu_choice > 3:
             self.menu_choice = 0
             
-        getattr(self, 'mmenu' + str(self.menu_choice + 1)).is_chosen = True
+        getattr(self, 'menu' + str(self.menu_choice + 1)).is_chosen = True
                         
     def get_sprites(self):
-        return self.main_menu_group
+        return self.menu_group
 
 

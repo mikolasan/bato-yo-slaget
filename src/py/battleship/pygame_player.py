@@ -1,5 +1,6 @@
 from battleship.Player import Player
 from battleship.pygame_board import *
+from battleship.pygame_elements import *
 
 class PyGame_Player(Player):
 
@@ -17,4 +18,20 @@ class PyGame_Player(Player):
         else:
             return PyGame_Enemy_Board(size, x, y)
         
+    def init_board(self, size, fleet, random = -1):
+        self.board = self.composite(size)
+        self.fleet = fleet
+        if self.human:
+            print "setup modal dialog"
+            Modal_dialog._title = "Place ships randomly?"
+            Modal_dialog._answers = ['Yeah!', 'Nope! I do it manually']
+            Modal_dialog.sender = self
+            Modal_dialog.callback = self.on_dialog_done
+            Modal_dialog._ready = True
+        else:
+            self.setup_ships(fleet, False)
+
+    def on_dialog_done(self, answer):
+        print "setup player ships", self.fleet, answer
+        self.setup_ships(self.fleet, answer == 1)
 

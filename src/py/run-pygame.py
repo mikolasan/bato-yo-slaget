@@ -19,8 +19,10 @@ def main():
     menu_controller = Menu_Controller(engine)
     engine.add_scene('menu', menu, menu_controller)
     
+    clock = pygame.time.Clock()
     while 1:
         engine.draw_scene()
+        clock.tick(20)
 
 if __name__ == '__main__': main()
 

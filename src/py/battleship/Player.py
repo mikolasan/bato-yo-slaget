@@ -29,7 +29,9 @@ class Player(object):
                 random = input("Do you want to place your own ship?(1-Yes, 0-Random):")
             if random == 0:
                 human = False
+        self.setup_ships(fleet, human)
 
+    def setup_ships(self, fleet, human):
         for s in range(0, len(fleet)):
             ship_size = s + 1
             count = fleet[s]

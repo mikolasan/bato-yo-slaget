@@ -13,6 +13,7 @@ import pygame
 from pygame.locals import *
 from battleship.pygame_game import *
 from battleship.pygame_controller import *
+from battleship.pygame_elements import *
 
 def fit(surf,size):
     surf = pygame.transform.scale(surf,size)
@@ -39,6 +40,9 @@ class Engine:
         self.show_fps = True
         self.clock = None
         self.world = None   #Change what world is set to to change between scenes or modes
+        self.dialog = Modal_dialog()
+        self.dialog.controller = Modal_Controller(self)
+        print "create instance of Modal_dialog", self.dialog._ready
         self.scenes = {}
         self.next_tick = 0.0
     
@@ -101,6 +105,9 @@ class Engine:
         flags = pygame.RESIZABLE|pygame.FULLSCREEN*self.fullscreen
         self.window = pygame.display.set_mode([self.swidth,self.sheight],flags)
         self.surface = pygame.display.get_surface() #pygame.Surface([self.iwidth,self.iheight]).convert()
+        print 'screen', self.surface.get_bitsize()
+
+
         #self.blank = self.surface.convert()
         #self.blank.fill([0,0,0])
         pygame.display.set_caption(self.name)
@@ -125,7 +132,8 @@ class Engine:
     
     def draw_scene(self):
     
-        self.controller.input(pygame.event.get())
+        if not self.dialog._full:
+            self.controller.input(pygame.event.get())
         
         screen = self.surface
         screen.blit(self.back, (0, 0))
@@ -133,6 +141,12 @@ class Engine:
         sprites = pygame.sprite.LayeredUpdates(self.world.get_sprites())
         sprites.update() # Стандартный метод проверки, вдруг что-то изменилось. Пригодится для описания движения
         sprites.draw(screen)
+        
+        if self.dialog._ready:
+            self.dialog.setup()
+        if self.dialog._full:
+            self.dialog.controller.input(pygame.event.get())
+            self.dialog.draw(screen)
         
         pygame.display.flip()
 

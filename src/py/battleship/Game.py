@@ -27,7 +27,7 @@ class Game(object):
                 p.set_human()
                 #p.name = raw_input('What is your name player ' + str(i+1) + '? ')
                 p.name = 'Player ' + str(i+1)
-            p.init_board(size, fleet_settings, 0)
+            p.init_board(size, fleet_settings)
             self.players.append(p)
             
 
