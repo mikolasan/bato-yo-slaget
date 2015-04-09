@@ -53,8 +53,6 @@ class Controller:
 class Modal_Controller(Controller):
     def input(self, events):
         
-        Controller.input(self, events)
-        
         dialog = self.engine.dialog
         
         for e in events:
@@ -62,10 +60,10 @@ class Modal_Controller(Controller):
                 if e.key == pygame.K_ESCAPE:
                     dialog.exit()
                     
-                elif e.key == pygame.K_LEFT:
+                elif e.key == pygame.K_UP:
                     dialog.select('left')
 
-                elif e.key == pygame.K_RIGHT:
+                elif e.key == pygame.K_DOWN:
                     dialog.select('right')
                        
                 elif e.key == pygame.K_RETURN:
@@ -90,6 +88,7 @@ class Menu_Controller(Controller):
                 elif e.key == pygame.K_RETURN:
                     if scene.menu_choice == 0:
                         self.engine.switch_scene('battleship')
+                        self.engine.world.start()
                     elif scene.menu_choice == 3:
                         sys.exit(0)
                     

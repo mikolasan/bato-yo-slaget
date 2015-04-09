@@ -9,7 +9,10 @@ from Player import Player
  
 class Game(object):
 
-    def __init__(self, size = 0, n_players = -1):
+    def __init__(self):
+        pass
+        
+    def start(self, size = 0, n_players = -1):
         print "Welcome on board"
 
         while size < 1:

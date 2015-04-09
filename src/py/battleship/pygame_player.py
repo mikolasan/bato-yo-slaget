@@ -23,11 +23,11 @@ class PyGame_Player(Player):
         self.fleet = fleet
         if self.human:
             print "setup modal dialog"
-            Modal_dialog._title = "Place ships randomly?"
-            Modal_dialog._answers = ['Yeah!', 'Nope! I do it manually']
+            Modal_dialog._title = "Auto ships"
+            Modal_dialog._answers = ['Yeah!', "Ill do it"]
             Modal_dialog.sender = self
             Modal_dialog.callback = self.on_dialog_done
-            Modal_dialog._ready = True
+            Modal_dialog._new = True
         else:
             self.setup_ships(fleet, False)
 

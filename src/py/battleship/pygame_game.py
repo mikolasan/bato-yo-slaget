@@ -5,12 +5,13 @@ from battleship.pygame_elements import *
 class PyGame_Game(Game):
     
     def __init__(self):
-        Game.__init__(self, 10, 1)
-        
         self.aim = Aim()
         self.aim_group = sprite.Group()
         self.aim_group.add(self.aim)
     
+    def start(self):
+        Game.start(self,10, 1)
+        
     def initialize(self):
         pygame.key.set_repeat(500, 30)      
     

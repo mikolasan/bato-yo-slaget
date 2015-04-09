@@ -33,6 +33,7 @@ class Engine:
         self.surface = None   #The surface is what will be displayed, most of the time draw to this
         self.blank = None
         self.back = None
+        self.back_color = (73, 128, 181)
         self.running = False   #If this is set to false, the game will quit
         self.paused = False   #Not implemented, should be controlled by the world
         self.framerate = 60    #What framerate the game runs at
@@ -42,7 +43,7 @@ class Engine:
         self.world = None   #Change what world is set to to change between scenes or modes
         self.dialog = Modal_dialog()
         self.dialog.controller = Modal_Controller(self)
-        print "create instance of Modal_dialog", self.dialog._ready
+        print "create instance of Modal_dialog", self.dialog._new
         self.scenes = {}
         self.next_tick = 0.0
     
@@ -92,7 +93,7 @@ class Engine:
         background = pygame.Surface(screen.get_size()) # и ее размер
         background = background.convert()
         # заполняем цветом
-        background.fill((73, 128, 181)) 
+        background.fill(self.back_color) 
         screen.blit(background, (0, 0)) # рисуем заполненный одним цветом бэкграунд
         # или загружаем картинку
         #back, back_rect = load_image("back.png") 
@@ -132,20 +133,26 @@ class Engine:
     
     def draw_scene(self):
     
-        if not self.dialog._full:
+        if not self.dialog._visible:
             self.controller.input(pygame.event.get())
         
         screen = self.surface
         screen.blit(self.back, (0, 0))
         
-        sprites = pygame.sprite.LayeredUpdates(self.world.get_sprites())
-        sprites.update() # Стандартный метод проверки, вдруг что-то изменилось. Пригодится для описания движения
-        sprites.draw(screen)
-        
-        if self.dialog._ready:
+        if self.world.get_sprites:
+            sprites = pygame.sprite.LayeredUpdates(self.world.get_sprites())
+            sprites.update() # Стандартный метод проверки, вдруг что-то изменилось. Пригодится для описания движения
+            sprites.draw(screen)
+        elif self.world.get_group:
+            sprites = self.world.get_group()
+            sprites.update() # Стандартный метод проверки, вдруг что-то изменилось. Пригодится для описания движения
+            sprites.draw(screen)
+            
+        if self.dialog._new:
             self.dialog.setup()
-        if self.dialog._full:
+        if self.dialog._visible:
             self.dialog.controller.input(pygame.event.get())
+            self.dialog.update()
             self.dialog.draw(screen)
         
         pygame.display.flip()
