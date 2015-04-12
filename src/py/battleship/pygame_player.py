@@ -44,7 +44,6 @@ class PyGame_Player(Player):
             ship_size = s + 1
             if self.fleet[s] > 0:
                 #take_cells(self, start_x, start_y, length, direction):
-                self.board.managed_ship = Ship()
-                self.board.managed_ship.create(0, 0, ship_size, "H", "new")
+                self.board.managed_ship = self.board.create_ship(0, 0, ship_size, "H", "new")
                 self.fleet[s] -= 1
 

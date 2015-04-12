@@ -2,6 +2,7 @@ import pygame
 from battleship.Board import *
 from battleship.pygame_cell import *
 
+        
 class PyGame_Board(Board, pygame.sprite.Sprite):
 
     color = (15,25,71) # dark blue

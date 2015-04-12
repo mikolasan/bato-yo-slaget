@@ -133,7 +133,21 @@ class Board(object):
         )
         ship = Ship(cells)
         return ship
-        
+    
+    def create_ship(self, start_x, start_y, length, direction, state = 'ship'):
+        ship = Ship()
+        ship.create(start_x, start_y, length, direction, state)
+        ship.cells = [None] * length
+        for i in range(0, length):
+            x_ = start_x
+            y_ = start_y
+            if direction == "V":
+                y_ = start_y + i
+            elif direction == "H":
+                x_ = start_x + i
+            ship.cells[i] = self.composite(x_, y_, state)
+        return ship
+
     def add_ship(self, cells):
         ship = Ship(cells)
         

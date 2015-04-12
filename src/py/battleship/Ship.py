@@ -50,7 +50,7 @@ class Ship(object):
             elif direction == "H":
                 x = start_x + i
                 y = start_y
-            self.cells[i] = self.composite(x, y, 'ship')
+            self.cells[i] = self.composite(x, y, state)
         try:
             self.name = self.names[self.length - 1]
         except IndexError:
