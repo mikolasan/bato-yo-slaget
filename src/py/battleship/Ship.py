@@ -15,12 +15,32 @@ class Ship(object):
             self.name = self.names[self.length - 1]
         except IndexError:
             self.name = "UFO"
+        if self.length > 1:
+            dx = cells[1].x - cells[0].x
+            dy = cells[1].y - cells[0].y
+            if dx > 0:
+                self.direction = "H"
+            elif dy > 0:
+                self.direction = "V"
+        else:
+            self.direction = "N"
         self.area = self.find_area()
 
     def composite(self, x, y, state):
         return Cell(x, y, state)
-        
-    def create(self, start_x, start_y, length, direction):
+    
+    def create_cells(self, start_x, start_y, length, direction, state):
+        cells = [None] * length
+        for i in range(0, length):
+            if direction == "V":
+                x = start_x
+                y = start_y + i
+            elif direction == "H":
+                x = start_x + i
+                y = start_y
+            cells[i] = self.composite(x, y, state)
+                
+    def create(self, start_x, start_y, length, direction, state = 'ship'):
         self.length = length
         self.cells = [None] * length
         for i in range(0, length):
@@ -37,6 +57,13 @@ class Ship(object):
             self.name = "UFO"
         self.direction = direction
         self.area = self.find_area()
+    
+    def get_rotated_direction(self):
+        if self.direction == "V":
+            return "H"
+        elif self.direction == "H":
+            return "V"
+        return "N"
     
     def find_area(self):
         area = []

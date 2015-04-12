@@ -12,6 +12,7 @@ class Board(object):
         """Init squared field"""
         self.board = {}
         self.ships = []
+        self.managed_ship = None
         self.size = size
         for i in range(self.size):
             for j in range(self.size):
@@ -70,10 +71,8 @@ class Board(object):
             orientation = random.randint(0, 1) == 0 and "V" or "H"
         else:
             #self.pretty_print()
-            x = raw_input('What is the x co-ordinate for your ' + str(size) + 
-                          '? ')
-            y = raw_input('What is the y co-ordinate for your ' + str(size) + 
-                          '? ')
+            x = raw_input('What is the x co-ordinate for your ' + str(size) + '? ')
+            y = raw_input('What is the y co-ordinate for your ' + str(size) + '? ')
             orientation = raw_input('''If you wish to place the ship 
             vertically, enter V. For a horizontl ship, enter H. ''')
             try:
@@ -95,6 +94,46 @@ class Board(object):
             self.setup_ship(size, random)
         return True
 
+    def take_cells(self, start_x, start_y, length, direction):
+        cells = [None] * length
+        for i in range(0, length):
+            if direction == "V":
+                x = start_x
+                y = start_y + i
+            elif direction == "H":
+                x = start_x + i
+                y = start_y
+            cells[i] = self.board[(x, y)]
+        return cells
+        
+    def move_ship(self, ship, moving, shift = 1):
+        if (moving == "left" and ship.cells[0].x == shift - 1 or
+                moving == "right" and self.size - ship.cells[-1].x == shift or
+                moving == "up" and ship.cells[0].y == shift - 1 or
+                moving == "down" and self.size - ship.cells[-1].y == shift):
+            return ship
+                
+        for i in range(0, ship.length):
+            if moving == "left":
+                ship.cells[i].x -= shift
+            elif moving == "right":
+                ship.cells[i].x += shift
+            elif moving == "up":
+                ship.cells[i].y -= shift
+            elif moving == "down":
+                ship.cells[i].y += shift
+        return ship
+
+    def rotate_ship(self, ship):
+        cells = self.take_cells(
+            ship.cells[0].x,
+            ship.cells[0].y,
+            ship.length,
+            ship.get_rotated_direction()
+        )
+        ship = Ship(cells)
+        return ship
+        
     def add_ship(self, cells):
         ship = Ship(cells)
         
