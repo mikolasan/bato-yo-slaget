@@ -15,6 +15,17 @@ class PyGame_Game(Game):
     def initialize(self):
         pygame.key.set_repeat(500, 30)      
     
+    def place_ship(self):
+        
+        
+    def rotate_ship(self):
+        pass
+    
+    def move_ship(self, course):
+        board = self.curr_player.board
+        ship = board.managed_ship
+        board.move_ship(course)
+            
     def move_aim(self, course):
         if course == 'up':
             self.aim.dy -= 1

@@ -110,20 +110,21 @@ class Game_Controller(Controller):
         
         for e in events:
             if e.type == pygame.KEYDOWN:
+                direction = None
+                
                 if e.key == pygame.K_UP:
-                    scene.move_aim('up')
+                    direction = 'up'
 
                 elif e.key == pygame.K_DOWN:
-                    scene.move_aim('down')
+                    direction = 'down'
 
                 elif e.key == pygame.K_LEFT:
-                    scene.move_aim('left')
+                    direction = 'left'
 
                 elif e.key == pygame.K_RIGHT:
-                    scene.move_aim('right')
+                    direction = 'right'
 
                 elif e.key == pygame.K_SPACE:
-                    
                     scene.place_ship()
                     
                 elif e.key == pygame.K_RETURN:
@@ -134,18 +135,10 @@ class Game_Controller(Controller):
 
                 elif e.key == pygame.K_TAB:
                     scene.rotate_ship()
-
-#            elif e.type == pygame.KEYUP:
-#                if e.key == pygame.K_UP:
-#                    self.ys = 0
-#                elif e.key == pygame.K_LEFT:
-#                    self.xs=0
-
-#                elif e.key == pygame.K_RIGHT:
-#                    self.xs = 0
-
-#                elif e.key == pygame.K_DOWN:
-#                    self.ys = 0
-
-
+                
+                if direction:
+                    if scene.ship_setup:
+                        scene.move_ship(direction)
+                    else:
+                        scene.move_aim(direction)
 
