@@ -137,8 +137,8 @@ class Game_Controller(Controller):
                     scene.rotate_ship()
                 
                 if direction:
-                    if scene.ship_setup:
+                    if scene.curr_player.stage == "planning":
                         scene.move_ship(direction)
-                    else:
+                    elif scene.curr_player.stage == "scanning":
                         scene.move_aim(direction)
 

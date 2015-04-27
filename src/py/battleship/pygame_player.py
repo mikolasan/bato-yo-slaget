@@ -6,7 +6,8 @@ class PyGame_Player(Player):
 
     # where boards can be placed
     places = [(10, 10), (380, 300)]
-
+    stage = None
+    
     def __init__(self, player_id, human = False):
         Player.__init__(self, human)
         self._id = player_id
@@ -28,6 +29,7 @@ class PyGame_Player(Player):
             Modal_dialog.sender = self
             Modal_dialog.callback = self.on_dialog_done
             Modal_dialog._new = True
+            self.stage = "planning"
         else:
             self.setup_ships(fleet, False)
 

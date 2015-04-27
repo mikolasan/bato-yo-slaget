@@ -16,7 +16,7 @@ class PyGame_Game(Game):
         pygame.key.set_repeat(500, 30)      
     
     def place_ship(self):
-        
+        pass
         
     def rotate_ship(self):
         pass
@@ -24,7 +24,7 @@ class PyGame_Game(Game):
     def move_ship(self, course):
         board = self.curr_player.board
         ship = board.managed_ship
-        board.move_ship(course)
+        board.move_ship(ship, course)
             
     def move_aim(self, course):
         if course == 'up':
