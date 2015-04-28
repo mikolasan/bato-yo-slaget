@@ -107,12 +107,12 @@ class Board(object):
         return cells
         
     def move_ship(self, ship, moving, shift = 1):
+        print moving
         if (moving == "left" and ship.cells[0].x == shift - 1 or
                 moving == "right" and self.size - ship.cells[-1].x == shift or
                 moving == "up" and ship.cells[0].y == shift - 1 or
                 moving == "down" and self.size - ship.cells[-1].y == shift):
             return ship
-                
         for i in range(0, ship.length):
             if moving == "left":
                 ship.cells[i].x -= shift
@@ -134,18 +134,27 @@ class Board(object):
         ship = Ship(cells)
         return ship
     
-    def create_ship(self, start_x, start_y, length, direction, state = 'ship'):
-        ship = Ship()
-        ship.create(start_x, start_y, length, direction, state)
-        ship.cells = [None] * length
-        for i in range(0, length):
-            x_ = start_x
-            y_ = start_y
-            if direction == "V":
-                y_ = start_y + i
-            elif direction == "H":
-                x_ = start_x + i
-            ship.cells[i] = self.composite(x_, y_, state)
+    def create_ship(self, start_x, start_y, length, direction, state = 'ship', managed = False):
+        ship = None
+        
+        if managed:
+            ship = Ship()
+            ship.create(start_x, start_y, length, direction, state)
+            ship.cells = [None] * length
+            for i in range(0, length):
+                x_ = start_x
+                y_ = start_y
+                if direction == "V":
+                    y_ = start_y + i
+                elif direction == "H":
+                    x_ = start_x + i
+                ship.cells[i] = self.composite(x_, y_, state)
+        else:
+            cells = self.take_cells(start_x, start_y, length, direction)
+            for c in cells:
+                c.state = state
+            ship = Ship(cells)
+        
         return ship
 
     def add_ship(self, cells):

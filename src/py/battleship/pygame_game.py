@@ -4,6 +4,8 @@ from battleship.pygame_elements import *
 
 class PyGame_Game(Game):
     
+    ship_setup = False
+    
     def __init__(self):
         self.aim = Aim()
         self.aim_group = sprite.Group()
