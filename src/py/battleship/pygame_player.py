@@ -36,17 +36,18 @@ class PyGame_Player(Player):
     def on_dialog_done(self, answer):
         self.manual_setup = (answer == 1)
         if self.manual_setup:
-            self.setup_ship()
+            self.setup_next_ship()
         else:
             self.setup_ships(self.fleet, False)
         
-    def setup_ship(self):
+    def setup_next_ship(self):
         print "setup player ships", self.fleet
         for s in range(0, len(self.fleet)):
             ship_size = s + 1
             print ship_size
             if self.fleet[s] > 0:
-                #take_cells(self, start_x, start_y, length, direction):
                 self.board.managed_ship = self.board.create_ship(0, 0, ship_size, "H", "new", True)
-                self.fleet[s] -= 1
+                self.fleet[s] -= 1 # TODO: early
+                return True
+        return False
 

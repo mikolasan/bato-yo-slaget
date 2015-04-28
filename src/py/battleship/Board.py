@@ -125,14 +125,20 @@ class Board(object):
         return ship
 
     def rotate_ship(self, ship):
-        cells = self.take_cells(
+        return self.create_ship(
             ship.cells[0].x,
             ship.cells[0].y,
             ship.length,
-            ship.get_rotated_direction()
-        )
-        ship = Ship(cells)
-        return ship
+            ship.get_rotated_direction(),
+            ship.cells[0].state,
+            True)
+    
+    def place_ship(self, ship):
+        return self.create_ship(
+            ship.cells[0].x,
+            ship.cells[0].y,
+            ship.length,
+            ship.direction)
     
     def create_ship(self, start_x, start_y, length, direction, state = 'ship', managed = False):
         ship = None
@@ -151,9 +157,10 @@ class Board(object):
                 ship.cells[i] = self.composite(x_, y_, state)
         else:
             cells = self.take_cells(start_x, start_y, length, direction)
-            for c in cells:
-                c.state = state
-            ship = Ship(cells)
+            if self.add_ship(cells):
+                for c in cells:
+                    c.state = state
+                ship = self.ships[-1]
         
         return ship
 

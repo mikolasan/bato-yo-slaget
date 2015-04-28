@@ -18,10 +18,17 @@ class PyGame_Game(Game):
         pygame.key.set_repeat(500, 30)      
     
     def place_ship(self):
-        pass
+        board = self.curr_player.board
+        ship = board.managed_ship
+        board.place_ship(ship)
+        
+        self.curr_player.setup_next_ship()
+        
         
     def rotate_ship(self):
-        pass
+        board = self.curr_player.board
+        ship = board.managed_ship
+        board.managed_ship = board.rotate_ship(ship)
     
     def move_ship(self, course):
         board = self.curr_player.board
