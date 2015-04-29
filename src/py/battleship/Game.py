@@ -55,18 +55,20 @@ class Game(object):
         for n in range(40):
             print ''
 
+    def swap_players(self):
+        self.players.rotate(1)
+        self.curr_player = self.players[0]
+        self.curr_opponent = self.players[1]
+        
     def turn(self):
         x, y = self.curr_player.fire(self.curr_opponent.board)
         hit = self.curr_opponent.on_fire(x, y)
         self.curr_opponent.print_board()
         self.game_over = (len(self.curr_opponent.board.ships) == 0)
-        
         if not hit:
-            #Swap player's seats.
-            self.players.rotate(1)
-            self.curr_player = self.players[0]
-            self.curr_opponent = self.players[1]
-      
+            self.swap_players()
+            
+        return hit
 
     def play(self):
         while not self.game_over:

@@ -10,6 +10,7 @@ class PyGame_Game(Game):
         self.aim = Aim()
         self.aim_group = sprite.Group()
         self.aim_group.add(self.aim)
+        self.gameover = sprite.Group()
     
     def start(self):
         Game.start(self,10, 1)
@@ -59,9 +60,32 @@ class PyGame_Game(Game):
     def hit(self):
         if self.curr_player.board.managed_ship:
             return
-            
+        
+        # player
         h = self.curr_opponent.on_fire(self.aim.x, self.aim.y)
-                    
+        self.game_over = (len(self.curr_opponent.board.ships) == 0)
+        
+        if self.game_over:
+            self.finish_round("You win")
+            return
+            
+        # bot
+        if not h:
+            self.curr_player.stage = "waiting"
+            self.swap_players()
+            while not self.game_over and self.turn():
+                pass
+            if self.game_over:
+                self.finish_round("You lose")
+                return
+        
+        self.curr_player.stage = "scanning"
+        
+    
+    def finish_round(self, text):
+        self.gameover.empty()
+        self.gameover.add(Gameover_window(text))
+
     def composite(self):
         player_id = len(self.players)
         return PyGame_Player(player_id)
@@ -72,7 +96,9 @@ class PyGame_Game(Game):
             sprites = sprites + p.board.draw_list
         if self.curr_player.human and not self.curr_player.board.managed_ship:
             sprites.append(self.aim_group)
-
+        if self.game_over and len(self.gameover.sprites()) > 0:
+            sprites.append(self.gameover)
+        
         return sprites
         
 

@@ -7,10 +7,11 @@ class PyGame_Cell(Cell, pygame.sprite.Sprite):
     
     player_c = (54, 85, 99) # metallic blue
     #(250,250,250) # white
-    empty_c = (123, 173, 196)# grey
-    near_c = (137, 218,218) # light blue
-    fate_c = (241,122,64) # orange
+    empty_c = (123, 173, 196) # grey
+    near_c = (87, 142, 132) # green-blue
+    fate_c = (139, 64, 116) # purple
     fog_c = (100, 114, 127) # violet
+    miss_c = (179, 204, 220)
     new_c = (250, 0, 0)
     
     size = 32
@@ -45,6 +46,6 @@ class PyGame_Cell(Cell, pygame.sprite.Sprite):
         elif self.state == 'fog':
             self.image.fill(self.fog_c)
         elif self.state == 'miss':
-            self.image.fill(self.empty_c)
+            self.image.fill(self.miss_c)
         elif self.state == 'new':
             self.image.fill(self.new_c)

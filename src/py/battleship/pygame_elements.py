@@ -152,17 +152,20 @@ class Modal_dialog(pygame.sprite.LayeredUpdates):
 
 
 class Gameover_window(pygame.sprite.Sprite):
-    font = pygame.font.Font(os.path.join(fonts_dir, font_name), 70)
-    def __init__(self):
+    font = pygame.font.Font(os.path.join(fonts_dir, font_name), 30)
+    menu_font_c = (250, 250, 0)
+    
+    def __init__(self, text):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((315, 100))
         self.rect = self.image.get_rect()
         self.rect.x = 250
         self.rect.y = 0
+        self.text = text
 
-    def update(self, text):
-        self.txt1 = self.font.render('GAME OVER' ,True, menu_font_c)
-        self.txt2 = self.font.render(text ,True, menu_font_c)
+    def update(self):
+        self.txt1 = self.font.render('GAME OVER' ,True, self.menu_font_c)
+        self.txt2 = self.font.render(self.text ,True, self.menu_font_c)
     
         self.rect.y += 2
         self.image.blit(self.txt1, [15,5])
