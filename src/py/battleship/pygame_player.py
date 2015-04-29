@@ -39,15 +39,29 @@ class PyGame_Player(Player):
             self.setup_next_ship()
         else:
             self.setup_ships(self.fleet, False)
+            self.stage = "scanning"
         
-    def setup_next_ship(self):
+    def setup_next_ship(self, set_prev = False):
         print "setup player ships", self.fleet
+        patch_prev = set_prev
         for s in range(0, len(self.fleet)):
             ship_size = s + 1
-            print ship_size
+            
+            if self.fleet[s] > 0 and patch_prev:
+                self.fleet[s] -= 1
+                patch_prev = False
+            
             if self.fleet[s] > 0:
-                self.board.managed_ship = self.board.create_ship(0, 0, ship_size, "H", "new", True)
-                self.fleet[s] -= 1 # TODO: early
+                print ship_size
+                last_x, last_y = 0, 0
+                last_direction = "H"
+                if self.board.managed_ship:
+                    cell_0 = self.board.managed_ship.cells[0]
+                    last_x = cell_0.x
+                    last_y = cell_0.y
+                    last_direction = self.board.managed_ship.direction
+                self.board.managed_ship = self.board.create_ship(last_x, last_y, ship_size, last_direction, "new", True)
+                self.board.managed_ship = self.board.check_bounds(self.board.managed_ship)
                 return True
         return False
 

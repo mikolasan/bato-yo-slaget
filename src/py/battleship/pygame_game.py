@@ -18,19 +18,30 @@ class PyGame_Game(Game):
         pygame.key.set_repeat(500, 30)      
     
     def place_ship(self):
+        if not self.curr_player.board.managed_ship:
+            return
+            
         board = self.curr_player.board
         ship = board.managed_ship
-        board.place_ship(ship)
+        success = board.place_ship(ship)
         
-        self.curr_player.setup_next_ship()
+        if not self.curr_player.setup_next_ship(success):
+            board.managed_ship = None
+            self.curr_player.stage = "scanning"
         
         
     def rotate_ship(self):
+        if not self.curr_player.board.managed_ship:
+            return
+            
         board = self.curr_player.board
         ship = board.managed_ship
         board.managed_ship = board.rotate_ship(ship)
     
     def move_ship(self, course):
+        if not self.curr_player.board.managed_ship:
+            return
+            
         board = self.curr_player.board
         ship = board.managed_ship
         board.move_ship(ship, course)
@@ -46,6 +57,9 @@ class PyGame_Game(Game):
             self.aim.dx += 1
 
     def hit(self):
+        if self.curr_player.board.managed_ship:
+            return
+            
         h = self.curr_opponent.on_fire(self.aim.x, self.aim.y)
                     
     def composite(self):
@@ -56,7 +70,7 @@ class PyGame_Game(Game):
         sprites = []
         for p in self.players:
             sprites = sprites + p.board.draw_list
-        if self.curr_player.human:
+        if self.curr_player.human and not self.curr_player.board.managed_ship:
             sprites.append(self.aim_group)
 
         return sprites

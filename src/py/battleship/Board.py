@@ -125,14 +125,28 @@ class Board(object):
         return ship
 
     def rotate_ship(self, ship):
-        return self.create_ship(
+        ship = self.create_ship(
             ship.cells[0].x,
             ship.cells[0].y,
             ship.length,
             ship.get_rotated_direction(),
             ship.cells[0].state,
             True)
-    
+        ship = self.check_bounds(ship)
+        return ship
+            
+    def check_bounds(self, ship):
+        if ship.cells[0].x < 0:
+            ship = self.move_ship(ship, "right", -ship.cells[0].x)
+        elif ship.cells[-1].x >= self.size:
+            ship = self.move_ship(ship, "left", ship.cells[-1].x - self.size + 1)
+        elif ship.cells[0].y < 0:
+            ship = self.move_ship(ship, "down", -ship.cells[0].y)
+        elif ship.cells[-1].y >= self.size:
+            ship = self.move_ship(ship, "up", ship.cells[-1].y - self.size + 1)
+            
+        return ship
+
     def place_ship(self, ship):
         return self.create_ship(
             ship.cells[0].x,

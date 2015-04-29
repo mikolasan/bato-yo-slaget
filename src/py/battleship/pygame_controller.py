@@ -125,16 +125,19 @@ class Game_Controller(Controller):
                     direction = 'right'
 
                 elif e.key == pygame.K_SPACE:
-                    scene.place_ship()
+                    if scene.curr_player.stage == "planning":
+                        scene.place_ship()
                     
                 elif e.key == pygame.K_RETURN:
-                    scene.hit()
+                    if scene.curr_player.stage == "scanning":
+                        scene.hit()
 
                 elif e.key == pygame.K_ESCAPE:
                     self.engine.switch_scene('menu')
 
                 elif e.key == pygame.K_TAB:
-                    scene.rotate_ship()
+                    if scene.curr_player.stage == "planning":
+                        scene.rotate_ship()
                 
                 if direction:
                     if scene.curr_player.stage == "planning":
