@@ -30,6 +30,8 @@ From **@tmac-balla** I've taken [code](https://github.com/tmac-balla/battleship-
 
 ## Current state of developing
 
+![Last screenshot](last_screen.png "I have won!")
+
 - not complete game session
 - not stable
 - and so on :)
