@@ -1,48 +1,53 @@
 Bato-yo-slaget (Battleship)
 ==========
 
-A python implimentation of the classic battleship game.
+A Python implementation of the classic battleship game.
 
 ## History
 
-Basic logic inited on **@JBKahn** [code](https://github.com/JBKahn/Battleship).
+Basic logic adopted from **@JBKahn** [code](https://github.com/JBKahn/Battleship).
 
-Features that I liked:
+Features I liked:
 
 - board size is a variable
-- amount of cpu players defined in runtime
+- amount of players defined at runtime
 - user ships can be placed on the board randomly
 - simple console output
 
-And added important things:
+Important things added:
 
-- ships can not intersects
+- ships can not intersect
 - unlimited amount of players (strange feature of course)
-- split a whole chunk on small classes (one class - one file)
-- game logic combined to python module
+- split the monolith code onto small classes (one class - one file)
+- game logic in separate python modules
 
 
-From **@tmac-balla** I've taken [code](https://github.com/tmac-balla/battleship-game) to provide visualization of game logic on PyGame library.
+From **@tmac-balla** I've taken [the engine](https://github.com/tmac-balla/battleship-game) that uses PyGame library and 
 
-* base classes of logic was extended by sprites, fonts and rectangles
-* game classes connected to engine (similar chunk for any game on PyGame)
+* extended logic classes with sprites and fonts
+* linked game classes to the engine
 
 
-## Current state of developing
+## Current state of development
 
 ![Last screenshot](last_screen.png "I have won!")
 
-- not complete game session
-- not stable
-- and so on :)
+- game ends when the game ends (just restart the app)
+- not stable (auto ship positioning going wild)
+- and maybe more...
 
 ## Run
 
-Requires [Pygame](http://www.pygame.org/download.shtml).
+Requires [Pygame](http://www.pygame.org/download.shtml)
 
-To run game
+```
+pip install pygame
+```
+
+Play
 ```
 cd src/py
 python run-pygame.py
 ```
  
+**Controls**: arrow keys; Enter to select, fire or place a ship; Space to rotate ships.
