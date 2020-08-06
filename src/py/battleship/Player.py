@@ -3,7 +3,7 @@
 
 
 import random
-from Board import Board
+from .Board import Board
 
 class Player(object):
     """The map, ship and firing mechanism for a player of the game battleship.
@@ -51,8 +51,8 @@ class Player(object):
             x = random.randint(0, board.size - 1)
             y = random.randint(0, board.size - 1)
         else:
-            x = raw_input('What is the x-coordinate you wish to fire on? ')
-            y = raw_input('What is the y-coordinate you wish to fire on? ')
+            x = input('What is the x-coordinate you wish to fire on? ')
+            y = input('What is the y-coordinate you wish to fire on? ')
         try:
             x, y = int(x), int(y)
             # verifies that x and y are valid integers.
@@ -61,12 +61,12 @@ class Player(object):
             
         if x >= board.size or y >= board.size:
             #Checks to make sure that x and y and in the scope of the board.
-            print 'Out of bounds'
+            print('Out of bounds')
             self.fire(board)
         elif (board.get(x,y).state == 'miss' or
                 board.get(x,y).state == 'fate'):
             #Checks if the current spot has been chosen.
-            print 'That coordinate has been fired already'
+            print('That coordinate has been fired already')
             self.fire(board)
             
         return x, y

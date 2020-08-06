@@ -85,7 +85,7 @@ class MenuFlat(pygame.sprite.LayeredUpdates):
             self.selection = (self.selection - 1) % size
         elif trend == "right":
             self.selection = (self.selection + 1) % size
-        print "change selection to", self.selection
+        print("change selection to", self.selection)
         self.get_sprite(self.selection).is_chosen = True
 
 

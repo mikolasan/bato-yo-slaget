@@ -3,8 +3,8 @@
 
 
 import random
-from Cell import Cell
-from Ship import Ship
+from .Cell import Cell
+from .Ship import Ship
 
 class Board(object):
 
@@ -52,7 +52,7 @@ class Board(object):
             #cell.ship = None
             self.board[(x, y)].ship = None
         else:
-            print 'Target missed'
+            print('Target missed')
             cell.state = 'miss'
         
         self.debug_print()    
@@ -71,9 +71,9 @@ class Board(object):
             orientation = random.randint(0, 1) == 0 and "V" or "H"
         else:
             #self.pretty_print()
-            x = raw_input('What is the x co-ordinate for your ' + str(size) + '? ')
-            y = raw_input('What is the y co-ordinate for your ' + str(size) + '? ')
-            orientation = raw_input('''If you wish to place the ship 
+            x = input('What is the x co-ordinate for your ' + str(size) + '? ')
+            y = input('What is the y co-ordinate for your ' + str(size) + '? ')
+            orientation = input('''If you wish to place the ship 
             vertically, enter V. For a horizontl ship, enter H. ''')
             try:
                 x, y, orientation = int(x), int(y), str(orientation)
@@ -107,7 +107,7 @@ class Board(object):
         return cells
         
     def move_ship(self, ship, moving, shift = 1):
-        print moving
+        print(moving)
         if (moving == "left" and ship.cells[0].x == shift - 1 or
                 moving == "right" and self.size - ship.cells[-1].x == shift or
                 moving == "up" and ship.cells[0].y == shift - 1 or
@@ -209,7 +209,7 @@ class Board(object):
             for x in range(self.size):
                 s += self.get(x, y).draw()
             s += "\n"
-        print s
+        print(s)
         
     def debug_print(self):
         s = ""
@@ -218,7 +218,7 @@ class Board(object):
                 ship = self.board[(x, y)].ship
                 s += ship == None and "~" or str(ship.length)
             s += "\n"
-        print s
+        print(s)
 
 
 class Enemy_Board(Board):

@@ -293,7 +293,7 @@ def ship1(mat):
         
 def print_board(board):
     for row in board:
-        print " ".join(row)
+        print(" ".join(row))
 
 def set_ships(mat):
     ship4(mat)
@@ -539,7 +539,7 @@ def finish_him(mat):
         elif step == around[2] or step == around[3]:
             axis = 'y'
             
-        print axis
+        print(axis)
 
         if axis == 'x':
             range_x = [x_in - 1, x_in + 1, x_in - 2, x_in + 2, x_in - 3, x_in + 3]
@@ -605,9 +605,9 @@ def fence_cpu(mat, killed, mark):
             if mat[a][b] == killed:
                 xx.append(b)
                 yy.append(a)
-    print xx
+    print(xx)
     print
-    print yy
+    print(yy)
 
                 
     for i in range(len(xx)):
@@ -659,7 +659,7 @@ def kill(mat, dam, busy, killed):
                             counter += 1
 
         
-    print counter
+    print(counter)
     if counter == 0 :
         for row in mat:
             for col in row:

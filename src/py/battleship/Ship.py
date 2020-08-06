@@ -2,7 +2,7 @@
 # vim: set fileencoding=utf-8
 
 
-from Cell import Cell
+from .Cell import Cell
 
 
 class Ship(object):
@@ -68,7 +68,7 @@ class Ship(object):
     def find_area(self):
         area = []
         for c in self.cells:
-            #print c.x, c.y
+            #print(c.x, c.y)
             area += self.get_near(c, 1, self.cells + area)
         return area
 

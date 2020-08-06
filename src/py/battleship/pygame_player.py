@@ -23,7 +23,7 @@ class PyGame_Player(Player):
         self.board = self.composite(size)
         self.fleet = fleet
         if self.human:
-            print "setup modal dialog"
+            print("setup modal dialog")
             Modal_dialog._title = "Auto ships"
             Modal_dialog._answers = ['Yeah!', "Ill do it"]
             Modal_dialog.sender = self
@@ -42,7 +42,7 @@ class PyGame_Player(Player):
             self.stage = "scanning"
         
     def setup_next_ship(self, set_prev = False):
-        print "setup player ships", self.fleet
+        print("setup player ships", self.fleet)
         patch_prev = set_prev
         for s in range(0, len(self.fleet)):
             ship_size = s + 1
@@ -52,7 +52,7 @@ class PyGame_Player(Player):
                 patch_prev = False
             
             if self.fleet[s] > 0:
-                print ship_size
+                print(ship_size)
                 last_x, last_y = 0, 0
                 last_direction = "H"
                 if self.board.managed_ship:

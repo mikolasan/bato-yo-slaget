@@ -11,15 +11,15 @@ def test_cells():
     for i in range(1,10):
         board.append(Cell(0, i))
     for c in board:
-        print c.x, c.y, c.state
+        print(c.x, c.y, c.state)
 
 
 def test_ship():
     ship = Ship()
     ship.create(0, 0, 3, "V")
-    print ship.name, " area: ", len(ship.area)
+    print(ship.name, " area: ", len(ship.area))
     for c in ship.area:
-        print c.x, c.y
+        print(c.x, c.y)
 
 
 def test_board():
@@ -39,7 +39,7 @@ def test_player():
     player.init_board(10, settings)
     player.board.pretty_print()
     x, y = player.fire(player.board)
-    print x, y
+    print(x, y)
     player.on_fire(x, y)
     player.board.pretty_print()
 

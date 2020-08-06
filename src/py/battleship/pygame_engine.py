@@ -43,7 +43,7 @@ class Engine:
         self.world = None   #Change what world is set to to change between scenes or modes
         self.dialog = Modal_dialog()
         self.dialog.controller = Modal_Controller(self)
-        print "create instance of Modal_dialog", self.dialog._new
+        print("create instance of Modal_dialog", self.dialog._new)
         self.scenes = {}
         self.next_tick = 0.0
     
@@ -77,12 +77,12 @@ class Engine:
         fullname = os.path.join('art', name)
         try:
             image = pygame.image.load(fullname)
-        except pygame.error, message:
-            print "Cannot load image:", name
-            raise SystemExit, message
+        except pygame.error as message:
+            print("Cannot load image:", name)
+            raise SystemExit(message)
         image = image.convert()
         if colorkey is not None:
-            if colorkey is -1:
+            if colorkey == -1:
                 colorkey = image.get_at((0,0))
             image.set_colorkey(colorkey, RLEACCEL)
         return image, image.get_rect()
@@ -106,7 +106,7 @@ class Engine:
         flags = pygame.RESIZABLE|pygame.FULLSCREEN*self.fullscreen
         self.window = pygame.display.set_mode([self.swidth,self.sheight],flags)
         self.surface = pygame.display.get_surface() #pygame.Surface([self.iwidth,self.iheight]).convert()
-        print 'screen', self.surface.get_bitsize()
+        print('screen', self.surface.get_bitsize())
 
 
         #self.blank = self.surface.convert()

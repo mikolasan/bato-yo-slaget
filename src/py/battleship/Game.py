@@ -4,7 +4,7 @@
 
 # http://stackoverflow.com/questions/2150108/efficient-way-to-shift-a-list-in-python
 from collections import deque
-from Player import Player
+from .Player import Player
 
  
 class Game(object):
@@ -13,7 +13,7 @@ class Game(object):
         pass
         
     def start(self, size = 0, n_players = -1):
-        print "Welcome on board"
+        print("Welcome on board")
 
         while size < 1:
             size = int(input("What size board would you like? "))
@@ -28,7 +28,7 @@ class Game(object):
             p = self.composite()
             if n_players > i:
                 p.set_human()
-                #p.name = raw_input('What is your name player ' + str(i+1) + '? ')
+                #p.name = input('What is your name player ' + str(i+1) + '? ')
                 p.name = 'Player ' + str(i+1)
             p.init_board(size, fleet_settings)
             self.players.append(p)
@@ -46,14 +46,14 @@ class Game(object):
         if not default_settings:
             for i in range(0, 5):
                 try:
-                    settings[i] = int(raw_input('State an amount of boats with length ' + str(i + 1) + ': '))
+                    settings[i] = int(input('State an amount of boats with length ' + str(i + 1) + ': '))
                 except Exception:
                     settings = self.define_ships()
         return settings
         
     def clear_screen(self):
         for n in range(40):
-            print ''
+            print('')
 
     def swap_players(self):
         self.players.rotate(1)
@@ -73,6 +73,6 @@ class Game(object):
     def play(self):
         while not self.game_over:
             self.turn()
-        print self.curr_opponent.name + ''' wins!'''
+        print(self.curr_opponent.name + ''' wins!''')
 
 

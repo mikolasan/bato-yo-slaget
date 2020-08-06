@@ -33,7 +33,7 @@ class PyGame_Board(Board, pygame.sprite.Sprite):
         managed_ship = []
         if self.managed_ship:
              managed_ship = self.managed_ship.cells
-        return [self] + [(v) for k, v in self.board.iteritems()] + managed_ship
+        return [self] + [(v) for k, v in self.board.items()] + managed_ship
 
     def update(self):
         self.image.fill(self.color)

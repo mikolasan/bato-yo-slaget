@@ -1,5 +1,5 @@
 import pygame
-from Cell import Cell
+from .Cell import Cell
 
 class PyGame_Cell(Cell, pygame.sprite.Sprite):
 
