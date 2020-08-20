@@ -10,7 +10,7 @@ font_name = 'neo_retro.ttf'
 font_path = os.path.join(fonts_dir, font_name)
 
 
-class MenuElementFlat(pygame.sprite.Sprite):
+class TestMenuElementFlat(pygame.sprite.Sprite):
     
     font = pygame.font.Font(font_path, 40)
     width = 315
@@ -70,13 +70,13 @@ class DialogFlat(pygame.sprite.LayeredUpdates):
         pygame.sprite.LayeredUpdates.__init__(self)
         self.items = ['item1', 'item2', 'item3']
         for i, a in enumerate(self.items):
-            item = MenuElementFlat(a)
+            item = TestMenuElementFlat(a)
             if i == self.selection:
                 item.is_chosen = True
             item.rect.y = self.title_height + item.height * i
             item.rect.x = 100
             self.add(item)
-        title = MenuElementFlat("Title1")
+        title = TestMenuElementFlat("Title1")
         title.menu_back_c = (241,122,64)
         title.height = self.title_height
         title.rect.y = 0

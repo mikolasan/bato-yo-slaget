@@ -14,7 +14,7 @@ menu_font_c = (0, 0, 0)
 menu_font_selected_c = (0, 0, 0)
 
 
-class MenuElementFlat(pygame.sprite.Sprite):
+class TestMenuElementFlat(pygame.sprite.Sprite):
     
     font = pygame.font.Font(font_path, 40)
     width = 315
@@ -46,7 +46,7 @@ class MenuElementFlat(pygame.sprite.Sprite):
         self._draw()
 
 
-class Menu_Controller(Controller):
+class TestMenuController(Controller):
     def input(self, events):
         Controller.input(self, events)
         scene = self.engine.world
@@ -68,7 +68,7 @@ class MenuFlat(pygame.sprite.LayeredUpdates):
         pygame.sprite.LayeredUpdates.__init__(self)
         self.items = ['item1', 'item2', 'item3']
         for i, a in enumerate(self.items):
-            item = MenuElementFlat(a)
+            item = TestMenuElementFlat(a)
             if i == self.selection:
                 item.is_chosen = True
             item.rect.y = item.height * i
@@ -100,8 +100,8 @@ def main():
     menu = MenuFlat()
     menu.initialize = False
     menu.get_sprites = False
-    menu_controller = Menu_Controller(engine)
-    engine.add_scene('battleship', menu, menu_controller)
+    test_menu_controller = TestMenuController(engine)
+    engine.add_scene('battleship', menu, test_menu_controller)
 
     clock = pygame.time.Clock()
     while 1:
