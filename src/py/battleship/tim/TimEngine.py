@@ -11,6 +11,7 @@
 import os
 import pygame
 from battleship.controllers.DialogController import DialogController
+from battleship.ui.colors import Colors
 from battleship.ui.font import get_font_path
 from battleship.ui.popup import Popup
 
@@ -30,7 +31,7 @@ class TimEngine:
         self.surface = None   #The surface is what will be displayed, most of the time draw to this
         self.blank = None
         self.back = None
-        self.back_color = (73, 128, 181)
+        self.back_color = Colors.background
         self.running = False   #If this is set to false, the game will quit
         self.paused = False   #Not implemented, should be controlled by the world
         self.framerate = 60    #What framerate the game runs at

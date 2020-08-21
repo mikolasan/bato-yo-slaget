@@ -1,4 +1,5 @@
 import pygame
+from battleship.ui.colors import Colors
 from battleship.ui.flat import Flat
 
 
@@ -16,10 +17,20 @@ class Menu(object):
             item = Flat(a)
             if i == self.menu_choice:
                 item.is_chosen = True
-            item.rect.y = 200 + 60 * i
+            item.rect.y = 200 + item.height * i
             item.rect.x = 250
             setattr(self, 'menu' + str(self.menu_choice + i + 1), item)
             self.menu_group.add(item)
+        self.title = Flat('BATO YO SLAGET')
+        self.title.menu_back_c = (241, 80, 37)
+        # self.title.menu_font_c = Colors.flat_back
+        self.title.menu_font_c = Colors.font_selected
+        self.title.render_text()
+        self.title.width = 400
+        self.title.height = 70
+        self.title.rect.x = 200
+        self.title.rect.y = 60
+        self.menu_group.add(self.title)
             
     def initialize(self):
         pygame.key.set_repeat() # disable
