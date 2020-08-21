@@ -1,7 +1,8 @@
 import pygame
 from .Cell import Cell
 
-class PyGame_Cell(Cell, pygame.sprite.Sprite):
+
+class PyCell(Cell, pygame.sprite.Sprite):
 
 	 # {'fog','empty', 'ship', 'miss', 'near', 'fate'}
     

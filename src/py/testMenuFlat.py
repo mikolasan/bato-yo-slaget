@@ -6,7 +6,7 @@ from battleship.pygame_controller import *
 
 
 fonts_dir = 'fonts'
-font_name = 'neo_retro.ttf'
+font_name = 'Westmeath.ttf'
 font_path = os.path.join(fonts_dir, font_name)
 menu_back_c = (212, 227, 230)
 menu_back_selected_c = (116, 213, 218)

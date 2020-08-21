@@ -1,16 +1,19 @@
-from battleship.Game import Game
-from battleship.pygame_player import *
-from battleship.pygame_elements import *
+import pygame
+from .Game import Game
+from .PyPlayer import PyPlayer
+from .ui.aim import Aim
+from .ui.gameover import GameOver
 
-class PyGame_Game(Game):
+
+class PyPlay(Game):
     
     ship_setup = False
     
     def __init__(self):
         self.aim = Aim()
-        self.aim_group = sprite.Group()
+        self.aim_group = pygame.sprite.Group()
         self.aim_group.add(self.aim)
-        self.gameover = sprite.Group()
+        self.gameover = pygame.sprite.Group()
     
     def start(self):
         Game.start(self,10, 1)
@@ -84,11 +87,11 @@ class PyGame_Game(Game):
     
     def finish_round(self, text):
         self.gameover.empty()
-        self.gameover.add(Gameover_window(text))
+        self.gameover.add(GameOver(text))
 
     def composite(self):
         player_id = len(self.players)
-        return PyGame_Player(player_id)
+        return PyPlayer(player_id)
 
     def get_sprites(self):
         sprites = []

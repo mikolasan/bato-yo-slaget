@@ -10,18 +10,15 @@
 
 import os
 import pygame
-from pygame.locals import *
-from battleship.pygame_game import *
-from battleship.pygame_controller import *
-from battleship.pygame_elements import *
+from battleship.controllers.DialogController import DialogController
+from battleship.ui.font import get_font_path
+from battleship.ui.popup import Popup
 
-def fit(surf,size):
-    surf = pygame.transform.scale(surf,size)
-    return surf
 
-class Engine:
+class TimEngine:
     
     def __init__(self):
+        self.name = "Untitled"
         self.fullscreen = False
         #The screen width, what resolution the screen is scaled to
         self.swidth = 760
@@ -41,9 +38,9 @@ class Engine:
         self.show_fps = True
         self.clock = None
         self.world = None   #Change what world is set to to change between scenes or modes
-        self.dialog = Modal_dialog()
-        self.dialog.controller = Modal_Controller(self)
-        print("create instance of Modal_dialog", self.dialog._new)
+        self.dialog = Popup()
+        self.dialog.controller = DialogController(self)
+        print("create instance of Popup", self.dialog._new)
         self.scenes = {}
         self.next_tick = 0.0
     
@@ -54,7 +51,7 @@ class Engine:
         self.back = self.draw_background()
         self.running = True
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(os.path.join("fonts", "neo_retro.ttf"),12)
+        self.font = pygame.font.Font(get_font_path(),12)
     
     def stop(self):
         self.running = False
@@ -74,7 +71,7 @@ class Engine:
                 self.world.update()
     
     def load_image(self, name, colorkey=None):
-        fullname = os.path.join('art', name)
+        fullname = os.path.join('assets', name)
         try:
             image = pygame.image.load(fullname)
         except pygame.error as message:
@@ -112,7 +109,7 @@ class Engine:
         #self.blank = self.surface.convert()
         #self.blank.fill([0,0,0])
         pygame.display.set_caption(self.name)
-        pygame.display.set_icon(pygame.image.load(os.path.join("art", "icons", "ico.png")))
+        pygame.display.set_icon(pygame.image.load(os.path.join("assets", "icon.png")))
             
     
     def clear_screen(self):

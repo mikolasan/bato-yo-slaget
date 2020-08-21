@@ -1,8 +1,9 @@
-from battleship.Player import Player
-from battleship.pygame_board import *
-from battleship.pygame_elements import *
+from .Player import Player
+from .PyBoard import PyBoard, PyEnemyBoard
+from .ui.popup import Popup
 
-class PyGame_Player(Player):
+
+class PyPlayer(Player):
 
     # where boards can be placed
     places = [(10, 10), (380, 300)]
@@ -15,20 +16,20 @@ class PyGame_Player(Player):
     def composite(self, size):
         x, y = self.places[self._id][0], self.places[self._id][1]
         if self.human:
-            return PyGame_Board(size, x, y)
+            return PyBoard(size, x, y)
         else:
-            return PyGame_Enemy_Board(size, x, y)
+            return PyEnemyBoard(size, x, y)
         
     def init_board(self, size, fleet, random = -1):
         self.board = self.composite(size)
         self.fleet = fleet
         if self.human:
             print("setup modal dialog")
-            Modal_dialog._title = "Auto ships"
-            Modal_dialog._answers = ['Yeah!', "Ill do it"]
-            Modal_dialog.sender = self
-            Modal_dialog.callback = self.on_dialog_done
-            Modal_dialog._new = True
+            Popup._title = "Auto ships"
+            Popup._answers = ['Yeah!', "Ill do it"]
+            Popup.sender = self
+            Popup.callback = self.on_dialog_done
+            Popup._new = True
             self.stage = "planning"
         else:
             self.setup_ships(fleet, False)

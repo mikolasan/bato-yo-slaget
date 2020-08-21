@@ -24,18 +24,18 @@ def action(bk):
 #    ships_list = []
 #    screen = pygame.display.get_surface()
 #    for i in range(1, 5):
-#        boat = PyGame_Cell(i, 1, 'empty')
+#        boat = PyCell(i, 1, 'empty')
 #        ships_list.append(boat)
 #    sprites = pygame.sprite.RenderPlain(ships_list)
 
 # test 2
 ##########
-#    board = PyGame_Board()
+#    board = PyBoard()
 #    sprites = board.render
 
 # test 3
 ##########
-#    player = PyGame_Player()
+#    player = PyPlayer()
 #    settings = [4, 3, 2, 1, 0]
 #    player.init_board(10, settings)
 #    sprites = player.board.render
