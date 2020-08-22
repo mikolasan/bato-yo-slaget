@@ -1,18 +1,14 @@
-#
-# controller.py
-# not well implemented for expansion
-# but, provides a lot of nice base behavior:
-# * alt-enter to toggle fullscreen
-# * minimise pauses the engine (although the world still needs to check if the engine is paused)
-# * un minimise unpauses the engine
-# * can resize the window to change the display resolution
-# * can quit the game
-
 import sys
 import pygame
 
 
 class TimController:
+    '''not well implemented for expansion but, provides a lot of nice base behavior:
+    * alt-enter to toggle fullscreen
+    * minimise pauses the engine (although the world still needs to check if the engine is paused)
+    * un minimise unpauses the engine
+    * can resize the window to change the display resolution
+    * can quit the game'''
     def __init__(self, engine):
         self.engine = engine
 
