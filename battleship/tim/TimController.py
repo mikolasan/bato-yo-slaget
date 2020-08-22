@@ -11,16 +11,19 @@
 import sys
 import pygame
 
+
 class TimController:
     def __init__(self, engine):
         self.engine = engine
-    
+
     def input(self, events):
         for e in events:
-            if (e.type == pygame.QUIT) or (e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE):
+            if (e.type == pygame.QUIT) or (e.type == pygame.KEYDOWN
+                                           and e.key == pygame.K_ESCAPE):
                 pygame.quit()
                 sys.exit(0)
-                
+
+
 #    def input(self):
 #        engine = self.engine
 #        pygame.event.pump()
@@ -49,10 +52,3 @@ class TimController:
 #            self.handle_pygame_event(e)
 #        if engine.world:
 #            engine.world.input(self)
-
-
-                    
-
-
-
-        

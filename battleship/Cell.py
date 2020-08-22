@@ -5,8 +5,8 @@
 class Cell(object):
 
     # states = {'fog','empty', 'ship', 'miss', 'near', 'fate'}
-    
-    def __init__(self, x, y, state = None, ship = None):
+
+    def __init__(self, x, y, state=None, ship=None):
         self.x = x
         self.y = y
         self.state = None
@@ -18,7 +18,7 @@ class Cell(object):
 
     def set_state(self, state):
         self.state = state
-        
+
     def draw(self):
         s = ""
         if self.state == 'empty':
@@ -34,5 +34,3 @@ class Cell(object):
         elif self.state == 'fog':
             s = "~"
         return s
-        
-

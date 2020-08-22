@@ -1,4 +1,3 @@
-
 class Colors(object):
 
     background = (235, 245, 238)

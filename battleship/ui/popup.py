@@ -4,25 +4,25 @@ from battleship.ui.flat import Flat
 
 #gameover = Popup(315, 100, 'GAME OVER', {'Play again', 'Menu'})
 class Popup(pygame.sprite.LayeredUpdates):
-    
+
     _new = False
     _visible = False
     answer = None
     callback = None
     selection = 0
-    
+
     padding_left = 250
     padding_top = 200
     title_height = 100
-    title_c = (241,122,64)
-    
+    title_c = (241, 122, 64)
+
     def __init__(self):
         pygame.sprite.LayeredUpdates.__init__(self)
-    
+
     def setup(self):
         self.selection = 0
         self.answer = None
-        
+
         for i, a in enumerate(self._answers):
             item = Flat(a)
             if i == self.selection:
@@ -37,10 +37,9 @@ class Popup(pygame.sprite.LayeredUpdates):
         title.rect.y = self.padding_top
         title.rect.x = self.padding_left
         self.add(title)
-            
+
         self._new = False
         self._visible = True
-
 
     def select(self, trend):
         self.get_sprite(self.selection).is_chosen = False
@@ -57,10 +56,10 @@ class Popup(pygame.sprite.LayeredUpdates):
         if self.callback and callable(self.callback):
             self.callback(self.answer)
         self.callback = None
-    
+
     def exit(self):
         self._visible = False
         self.callback = None
-    
+
     def get_group(self):
         return self

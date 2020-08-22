@@ -4,15 +4,15 @@ from battleship.tim.TimController import TimController as Controller
 
 class GameController(Controller):
     def input(self, events):
-    
+
         Controller.input(self, events)
-        
+
         scene = self.engine.world
-        
+
         for e in events:
             if e.type == pygame.KEYDOWN:
                 direction = None
-                
+
                 if e.key == pygame.K_UP:
                     direction = 'up'
 
@@ -24,7 +24,7 @@ class GameController(Controller):
 
                 elif e.key == pygame.K_RIGHT:
                     direction = 'right'
-                    
+
                 elif e.key == pygame.K_RETURN:
                     if scene.curr_player.stage == "planning":
                         scene.place_ship()
@@ -37,10 +37,9 @@ class GameController(Controller):
                 elif e.key == pygame.K_SPACE:
                     if scene.curr_player.stage == "planning":
                         scene.rotate_ship()
-                
+
                 if direction:
                     if scene.curr_player.stage == "planning":
                         scene.move_ship(direction)
                     elif scene.curr_player.stage == "scanning":
                         scene.move_aim(direction)
-

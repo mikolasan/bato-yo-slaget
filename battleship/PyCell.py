@@ -5,12 +5,12 @@ from battleship.ui.colors import Colors
 
 class PyCell(Cell, pygame.sprite.Sprite):
 
-	 # {'fog','empty', 'ship', 'miss', 'near', 'fate'}
+    # {'fog','empty', 'ship', 'miss', 'near', 'fate'}
     size = 32
     padding = 2
     cx = 0
     cy = 0
-    
+
     def __init__(self, x, y, state, cx, cy):
         Cell.__init__(self, x, y, state)
         pygame.sprite.Sprite.__init__(self)
@@ -22,11 +22,11 @@ class PyCell(Cell, pygame.sprite.Sprite):
 
     def update(self):
         self._draw()
-    
+
     def _draw(self):
         self.rect.left = self.cx + (self.size + self.padding) * self.x
         self.rect.top = self.cy + (self.size + self.padding) * self.y
-        
+
         if self.state == 'ship':
             self.image.fill(Colors.player_c)
         elif self.state == 'empty':

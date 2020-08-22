@@ -8,8 +8,8 @@ class PyPlayer(Player):
     # where boards can be placed
     places = [(10, 10), (380, 300)]
     stage = None
-    
-    def __init__(self, player_id, human = False):
+
+    def __init__(self, player_id, human=False):
         Player.__init__(self, human)
         self._id = player_id
 
@@ -19,8 +19,8 @@ class PyPlayer(Player):
             return PyBoard(size, x, y)
         else:
             return PyEnemyBoard(size, x, y)
-        
-    def init_board(self, size, fleet, random = -1):
+
+    def init_board(self, size, fleet, random=-1):
         self.board = self.composite(size)
         self.fleet = fleet
         if self.human:
@@ -41,17 +41,17 @@ class PyPlayer(Player):
         else:
             self.setup_ships(self.fleet, False)
             self.stage = "scanning"
-        
-    def setup_next_ship(self, set_prev = False):
+
+    def setup_next_ship(self, set_prev=False):
         print("setup player ships", self.fleet)
         patch_prev = set_prev
         for s in range(0, len(self.fleet)):
             ship_size = s + 1
-            
+
             if self.fleet[s] > 0 and patch_prev:
                 self.fleet[s] -= 1
                 patch_prev = False
-            
+
             if self.fleet[s] > 0:
                 print(ship_size)
                 last_x, last_y = 0, 0
@@ -61,8 +61,9 @@ class PyPlayer(Player):
                     last_x = cell_0.x
                     last_y = cell_0.y
                     last_direction = self.board.managed_ship.direction
-                self.board.managed_ship = self.board.create_ship(last_x, last_y, ship_size, last_direction, "new", True)
-                self.board.managed_ship = self.board.check_bounds(self.board.managed_ship)
+                self.board.managed_ship = self.board.create_ship(
+                    last_x, last_y, ship_size, last_direction, "new", True)
+                self.board.managed_ship = self.board.check_bounds(
+                    self.board.managed_ship)
                 return True
         return False
-
