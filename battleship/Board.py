@@ -8,7 +8,7 @@ from .Ship import Ship
 
 class Board(object):
     def __init__(self, size):
-        """Init squared field"""
+        """Init square field"""
         self.board = {}
         self.ships = []
         self.managed_ship = None
@@ -17,7 +17,8 @@ class Board(object):
             for j in range(self.size):
                 self.board[(i, j)] = self.composite(i, j, 'empty')
 
-    def composite(self, x, y, state):
+    @staticmethod
+    def composite(x, y, state):
         return Cell(x, y, state)
 
     def get(self, x, y):
@@ -47,7 +48,7 @@ class Board(object):
                         if cell.state == 'empty' or cell.state == 'fog':
                             cell.state = 'near'
                 self.ships.remove(ship)
-            #cell.ship = None
+            # cell.ship = None
             self.board[(x, y)].ship = None
         else:
             print('Target missed')
@@ -60,19 +61,20 @@ class Board(object):
         '''Places a ship of ship_size on the board for either a human, if human
         is true, or a computer player.'''
 
-        #self.pretty_print()
+        # self.pretty_print()
 
         if rand:
-            #randomize computer player's ships
-            x = random.randint(0, self.size)
-            y = random.randint(0, self.size)
+            # randomize computer player's ships
+            x = random.randint(0, self.size)  # nosec
+            y = random.randint(0, self.size)  # nosec
             orientation = random.randint(0, 1) == 0 and "V" or "H"
         else:
-            #self.pretty_print()
+            # self.pretty_print()
             x = input('What is the x co-ordinate for your ' + str(size) + '? ')
             y = input('What is the y co-ordinate for your ' + str(size) + '? ')
-            orientation = input('''If you wish to place the ship 
-            vertically, enter V. For a horizontl ship, enter H. ''')
+            orientation = input(
+                'If you wish to place the ship vertically, enter V.\n' +
+                'For a horizontl ship, enter H. ')
             try:
                 x, y, orientation = int(x), int(y), str(orientation)
                 # Verifies the input values are integers
@@ -184,13 +186,13 @@ class Board(object):
         for new in cells:
             if (new.x < 0 or new.x >= self.size or new.y < 0
                     or new.y >= self.size):
-                #raise OutofboardError()
+                # raise OutofboardError()
                 return False
             for s in self.ships:
                 for full in (s.cells + s.area):
                     if full.x == new.x and full.y == new.y:
-                        #collision.append(new)
-                        #raise ShipAlreadyThere()
+                        # collision.append(new)
+                        # raise ShipAlreadyThere()
                         return False
 
         if len(collision) == 0:
@@ -214,7 +216,7 @@ class Board(object):
         for y in range(self.size):
             for x in range(self.size):
                 ship = self.board[(x, y)].ship
-                s += ship == None and "~" or str(ship.length)
+                s += ship is None and "~" or str(ship.length)
             s += "\n"
         print(s)
 
@@ -237,13 +239,13 @@ class EnemyBoard(Board):
         for new in cells:
             if (new.x < 0 or new.x >= self.size or new.y < 0
                     or new.y >= self.size):
-                #raise OutofboardError()
+                # raise OutofboardError()
                 return False
             for s in self.ships:
                 for full in (s.cells + s.area):
                     if full.x == new.x and full.y == new.y:
-                        #collision.append(new)
-                        #raise ShipAlreadyThere()
+                        # collision.append(new)
+                        # raise ShipAlreadyThere()
                         return False
 
         if len(collision) == 0:

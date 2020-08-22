@@ -25,7 +25,8 @@ class Ship(object):
             self.direction = "N"
         self.area = self.find_area()
 
-    def composite(self, x, y, state):
+    @staticmethod
+    def composite(x, y, state):
         return Cell(x, y, state)
 
     def create_cells(self, start_x, start_y, length, direction, state):

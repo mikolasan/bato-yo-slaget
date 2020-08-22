@@ -36,7 +36,8 @@ class Game(object):
         self.curr_player = self.players[0]
         self.curr_opponent = self.players[1]
 
-    def composite(self):
+    @staticmethod
+    def composite():
         return Player()
 
     def define_ships(self, default_settings=True):
@@ -51,7 +52,8 @@ class Game(object):
                     settings = self.define_ships()
         return settings
 
-    def clear_screen(self):
+    @staticmethod
+    def clear_screen():
         for n in range(40):
             print('')
 

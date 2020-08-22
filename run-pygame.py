@@ -13,7 +13,7 @@ def main():
     engine = Engine()
     engine.name = 'Bato yo slaget'
     engine.start()
-    
+
     game = PyPlay()
     game_controller = GameController(engine)
     engine.add_scene('battleship', game, game_controller)
@@ -21,7 +21,7 @@ def main():
     menu = Menu()
     menu_controller = MenuController(engine)
     engine.add_scene('menu', menu, menu_controller)
-    
+
     clock = pygame.time.Clock()
     while 1:
         engine.draw_scene()

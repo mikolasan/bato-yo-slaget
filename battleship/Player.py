@@ -45,9 +45,9 @@ class Player(object):
 
     def fire(self, board):
         if not self.human:
-            #checks to see if the current player should be a computer.
-            x = random.randint(0, board.size - 1)
-            y = random.randint(0, board.size - 1)
+            # checks to see if the current player should be a computer.
+            x = random.randint(0, board.size - 1)  # nosec
+            y = random.randint(0, board.size - 1)  # nosec
         else:
             x = input('What is the x-coordinate you wish to fire on? ')
             y = input('What is the y-coordinate you wish to fire on? ')
@@ -58,12 +58,12 @@ class Player(object):
             self.fire(board)
 
         if x >= board.size or y >= board.size:
-            #Checks to make sure that x and y and in the scope of the board.
+            # Checks to make sure that x and y and in the scope of the board.
             print('Out of bounds')
             self.fire(board)
         elif (board.get(x, y).state == 'miss'
               or board.get(x, y).state == 'fate'):
-            #Checks if the current spot has been chosen.
+            # Checks if the current spot has been chosen.
             print('That coordinate has been fired already')
             self.fire(board)
 
@@ -74,10 +74,10 @@ class Player(object):
         cell = self.board.reveal(x, y)
         state = cell.state
         if state == "fate":
-            #A player's ship has been hit! Mark it on the board.
+            # A player's ship has been hit! Mark it on the board.
             return True
         else:
-            #The player has hit and missed.
+            # The player has hit and missed.
             return False
 
     def print_board(self):

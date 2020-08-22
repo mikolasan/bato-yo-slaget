@@ -5,11 +5,8 @@ from battleship.tim.TimController import TimController as Controller
 
 class MenuController(Controller):
     def input(self, events):
-
-        Controller.input(self, events)
-
+        super().input(self, events)
         scene = self.engine.world
-
         for e in events:
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_UP:
