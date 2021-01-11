@@ -4,7 +4,7 @@ from battleship.tim.TimController import TimController as Controller
 
 class GameController(Controller):
     def input(self, events):
-        super().input(self, events)
+        super().input(events)
         scene = self.engine.world
         for e in events:
             if e.type == pygame.KEYDOWN:

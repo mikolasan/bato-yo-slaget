@@ -20,8 +20,7 @@ class Aim(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         #self.image = pygame.Surface((self.side, self.side))
-        gun = pygame.image.load(os.path.join('assets', 'aim.bmp'))
-        gun.set_colorkey((0, 0, 0))
+        gun = pygame.image.load(os.path.join('assets', 'aim.png'))
         self.image = gun
         self.rect = self.image.get_rect()
         self.rect.x = self.sx
